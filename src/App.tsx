@@ -21,7 +21,8 @@ function App() {
         {/* <CreateNote /> */}
         {/* <UserSignForm type="signin" submit={() => console.log("submitted")} />
           <UserSignForm type="signup" submit={() => console.log("submitted")} /> */}
-        <AddContent />
+        <SearchBar />
+        {/* <AddContent /> */}
         {/* <AllNotes /> */}
       </main>
       {/* </SidebarProvider> */}

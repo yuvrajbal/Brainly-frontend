@@ -9,10 +9,11 @@ import {
   Merge,
   NotebookIcon,
   NotebookPenIcon,
+  Trophy,
 } from "lucide-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import type { FileRouter } from "uploadthing/types";
-import { Uploadbutton, Uploaddropzone } from "./FileUpload";
+import axios from "axios";
 import Button from "./Button";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
@@ -22,28 +23,7 @@ export default function AddContent() {
   const [textNote, setTextNote] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
-
-  // function UploadComponent() {
-  //   return (
-  //     <UploadDropzone<OurFileRouter, "pdfUploader">
-  //       endpoint="pdfUploader"
-  //       url={`${import.meta.env.VITE_BACKEND_URL}`}
-  //       onClientUploadComplete={(res) => {
-  //         // Handle successful upload
-  //         if (res && res.length > 0) {
-  //           console.log("Upload complete", res);
-  //           // console.log("File URL:", res[0].fileUrl);
-  //           // Do something with the uploaded file
-  //         }
-  //       }}
-  //       onUploadError={(error) => {
-  //         console.error("Upload error", error);
-  //         alert(`ERROR! ${error.message}`);
-  //       }}
-  //     />
-  //   );
-  // }
-
+  const [type, setType] = useState("link");
   const renderDynamicInput = () => {
     switch (selectedIndex) {
       case 0:
@@ -153,29 +133,66 @@ export default function AddContent() {
         </svg>
       ),
       label: "Website",
+      value: "link",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200",
     },
     {
       icon: <NotebookPenIcon className="size-4 stroke-green-500" />,
       label: "Note",
+      value: "note",
       bgColor: "bg-green-50",
       borderColor: "border-green-200",
     },
     {
       icon: <File className="size-4 stroke-yellow-500" />,
       label: "Document",
+      value: "document",
       bgColor: "bg-yellow-50",
       borderColor: "border-yellow-200",
     },
     {
       icon: <Merge className="size-4 stroke-purple-500" />,
       label: "Integrations",
+      value: "integration",
       bgColor: "bg-purple-50",
       borderColor: "border-purple-200",
     },
   ];
   const [selectedIndex, setSelectedindex] = useState(0);
+
+  const handleAddMemory = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      // link(url) , type , filename(document), description(note)
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
+        {
+          type,
+          link: websiteUrl || fileUrl,
+          fileName,
+          description: textNote,
+        },
+        {
+          headers: {
+            authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
+          },
+        }
+      );
+      console.log(response.data);
+      setTextNote("");
+      setFileUrl("");
+      setWebsiteUrl("");
+    } catch (err) {
+      console.log("error sending req", err);
+    }
+  };
+  const handleTypeChange = (value: string, index: number) => {
+    setSelectedindex(index);
+    setType(value);
+  };
+
   return (
     <main className="px-2 pt-6 pb-2 border rounded-lg">
       <h1 className="flex gap-3 items-center font-semibold mb-6">
@@ -190,7 +207,7 @@ export default function AddContent() {
             }
               ${selectedIndex === index ? `border ${item.borderColor}` : ""}`}
             key={item.label}
-            onClick={() => setSelectedindex(index)}
+            onClick={() => handleTypeChange(item.value, index)}
           >
             {item.icon}
             <div className="mt-2">{item.label}</div>
@@ -226,11 +243,13 @@ export default function AddContent() {
           <div className="mt-2">Integrations</div>
         </div> */}
       </div>
-      {selectedIndex !== null && renderDynamicInput()}
-      <div className="flex justify-between mt-8">
-        <Button text="Cancel" variant="secondary" type="button" />
-        <Button text="Add Memory" variant="primary" type="button" />
-      </div>
+      <form onSubmit={handleAddMemory}>
+        {selectedIndex !== null && renderDynamicInput()}
+        <div className="flex justify-between mt-8">
+          <Button text="Cancel" variant="secondary" type="button" />
+          <Button text="Add Memory" variant="primary" type="submit" />
+        </div>
+      </form>
     </main>
   );
 }
