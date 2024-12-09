@@ -47,9 +47,9 @@ export default function LinkNote({
       />
       <div className="px-4 flex flex-col gap-2">
         <h1 className="text-lg font-semibold">{title}</h1>
-        <div className="text-base tracking-normal leading-tight text-gray-700">
+        {/* <div className="text-base tracking-normal leading-tight text-gray-700 line-clamp-2 overflow-hiddenx">
           {description}
-        </div>
+        </div> */}
         <div className="flex justify-between items-center mt-2">
           <div className="text-gray-500 text-sm ">{url}</div>
 

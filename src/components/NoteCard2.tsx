@@ -28,7 +28,6 @@ export default function Note2({
   description,
   imageUrl,
   url,
-  tweetId,
   tags,
   className,
   handledelete,
@@ -45,9 +44,7 @@ export default function Note2({
         />
       )}
       {type === "video" && <VideoNote url={url} handledelete={handledelete} />}
-      {type === "tweet" && (
-        <TweetNote tweetId={tweetId} handledelete={handledelete} />
-      )}
+      {type === "tweet" && <TweetNote url={url} handledelete={handledelete} />}
       {type === "note" && (
         <TextNote description={description} handledelete={handledelete} />
       )}

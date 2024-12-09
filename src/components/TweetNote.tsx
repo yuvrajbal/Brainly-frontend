@@ -1,12 +1,12 @@
 import { Tweet } from "react-tweet";
 type tweetProps = {
-  tweetId: string;
+  url: string;
   handledelete: () => void;
 };
-export default function TweetNote({ tweetId, handledelete }: tweetProps) {
+export default function TweetNote({ url, handledelete }: tweetProps) {
   return (
     <div className="light dark:dark group relative ">
-      <Tweet id={tweetId} />
+      <Tweet id={url} />
       <div
         className="rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-5 mr-5"
         onClick={handledelete}

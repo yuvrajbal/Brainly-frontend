@@ -1,93 +1,59 @@
+import axios from "axios";
 import Note from "./NoteCard";
 import Note2 from "./NoteCard2";
+import { useEffect, useState } from "react";
+
+interface Memory {
+  _id: string;
+  title: string;
+  description: string;
+  type: string;
+  link?: string;
+}
 
 export default function AllNotes() {
+  const [memories, setMemories] = useState<Memory[]>([]);
   // fetch from db then pass
-  const fetchNotes = async () => {};
+  const fetchNotes = async () => {
+    try {
+      const response = await axios.get<{ content: Memory[] }>(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
+        {
+          headers: {
+            authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
+          },
+        }
+      );
+      console.log(response.data);
+      setMemories(response.data.content);
+    } catch (err) {
+      console.log("Error while fetching memories", err);
+    }
+  };
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+  useEffect(() => {
+    console.log(memories);
+  });
   const handledelete = () => {
     alert("deleted");
   };
   return (
     <div className="grid grid-cols-1 gap-6  sm:grid-cols-2 sm:gap-4 lg:grid-cols-3  mx-auto">
-      {/* <Note
-        type="tweet"
-        tweetId="1859444165068689520"
-        title={"Book recomendation"}
-        tags={["books", "productivity"]}
-        className="row-span-3"
-      />
-      <Note
-        type="video"
-        videoUrl="https://www.youtube.com/watch?v=-iZohmcuvJM"
-        title={"Project reviews"}
-        tags={["books", "productivity"]}
-        className="row-span-2"
-      />
-      <Note
-        type="text"
-        title="Productivity Tip"
-        description="work smart not hard lorem work smart not hard lorem work smart not hard lorem work smart not  not hard lorem"
-        tags={["books", "productivity"]}
-        className="auto-rows-fr"
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-        className=""
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="video"
-        videoUrl="https://www.youtube.com/watch?v=-iZohmcuvJM"
-        title={"Project reviews"}
-        tags={["books", "productivity"]}
-        className="row-span-2"
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="link"
-        title="Productivity Blog"
-        description="work smart not hard"
-        tags={["books", "productivity"]}
-      />
-      <Note
-        type="video"
-        videoUrl="https://www.youtube.com/watch?v=-iZohmcuvJM"
-        title={"Project reviews"}
-        tags={["books", "productivity"]}
-        className="row-span-2"
-      /> */}
-      <Note2
+      {memories.map((memory) => (
+        <Note2
+          key={memory._id}
+          type={memory.type}
+          title={memory.title}
+          description={memory.description}
+          url={memory.link || ""}
+          handledelete={handledelete}
+        />
+      ))}
+
+      {/* <Note2
         type="tweet"
         handledelete={handledelete}
         tweetId="1860662852593361286"
@@ -124,7 +90,7 @@ export default function AllNotes() {
         type="tweet"
         tweetId="1858465770755276869"
         handledelete={handledelete}
-      />
+      /> */}
       {/* 
       <div className=" row-span-2 bg-gray-100 p-4 rounded-lg shadow-md">
         <p>Tweet Content</p>

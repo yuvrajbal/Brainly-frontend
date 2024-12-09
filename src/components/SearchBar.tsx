@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
-import { Search, SearchCheckIcon, SearchIcon } from "lucide-react";
+import { Loader2, Search, SearchCheckIcon, SearchIcon } from "lucide-react";
 
 interface SearchResult {
   answer: string;
@@ -12,10 +12,10 @@ const VectorSearch: React.FC = () => {
   const [searchResult, setSearchResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
+  const [searched, setSearched] = useState<boolean>(false);
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setSearched(true);
     // Reset previous states
     setSearchResult(null);
     setError(null);
@@ -61,43 +61,69 @@ const VectorSearch: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto flex flex-col p-2">
       <form
         onSubmit={handleSearch}
-        className="flex items-center border rounded-lg overflow-hidden shadow-sm"
+        className="flex rounded-3xl shadow-sm bg-gray-100 p-2"
       >
-        <input
-          type="text"
+        <textarea
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search your memories..."
-          className="flex-grow p-3 outline-none text-gray-700"
+          placeholder="Ask your memories"
+          className="p-2 resize-none flex-grow outline-none text-gray-700 bg-transparent  "
+          rows={3}
         />
         <button
           type="submit"
           disabled={isLoading}
-          className="px-4 py-3 rounded-md m-2 hover:bg-blue-600 disabled:opacity-50 transition-colors"
+          className="self-end rounded-full p-2 bg-black disabled:opacity-50 hover:bg-zinc-800 transition-colors"
         >
-          {isLoading ? "Searching..." : <SearchIcon className="size-5" />}
+          {isLoading ? (
+            <Loader2 className="size-4 stroke-white animate-spin" />
+          ) : (
+            <SearchIcon className="size-4 stroke-white" />
+          )}
         </button>
       </form>
+      <div className="my-6">
+        {/* User Query Message */}
+        {/* {query && !error && searched && (
+          <div className="flex justify-end">
+            <div className="bg-gray-100 rounded-xl p-3 max-w-[80%]">
+              <p className="text-gray-900">{query}</p>
+            </div>
+          </div>
+        )} */}
 
-      {error && (
-        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
-      )}
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex">
+            <div className="bg-gray-100 rounded-xl p-3 max-w-[80%]">
+              <p className="text-gray-500">
+                Searching through your memories...
+              </p>
+            </div>
+          </div>
+        )}
 
-      {isLoading && (
-        <div className="mt-4 text-center text-gray-500">
-          Searching through your memories...
-        </div>
-      )}
+        {/* Error Message */}
+        {error && (
+          <div className="flex">
+            <div className="bg-red-100 text-red-700 rounded-xl p-3 max-w-[80%]">
+              {error}
+            </div>
+          </div>
+        )}
 
-      {searchResult && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold mb-2">Result:</h3>
-          <p className="text-gray-700">{searchResult}</p>
-        </div>
-      )}
+        {/* Search Result */}
+        {searchResult && (
+          <div className="flex">
+            <div className="bg-gray-100 rounded-xl p-3">
+              <p className="text-gray-900">{searchResult}</p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -22,8 +22,8 @@ function App() {
         {/* <UserSignForm type="signin" submit={() => console.log("submitted")} />
           <UserSignForm type="signup" submit={() => console.log("submitted")} /> */}
         <SearchBar />
-        {/* <AddContent /> */}
-        {/* <AllNotes /> */}
+        <AddContent />
+        <AllNotes />
       </main>
       {/* </SidebarProvider> */}
     </BrowserRouter>
