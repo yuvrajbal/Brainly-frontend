@@ -3,8 +3,8 @@ import Note from "./NoteCard";
 import Note2 from "./NoteCard2";
 import { useEffect, useState } from "react";
 
-interface Memory {
-  _id: string;
+export interface Memory {
+  _id?: string;
   title: string;
   description: string;
   type: string;

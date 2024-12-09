@@ -1,10 +1,14 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
 import { Loader2, Search, SearchCheckIcon, SearchIcon } from "lucide-react";
-
+import { Memory } from "./AllNotes";
+import Note2 from "./NoteCard2";
+import Note from "./NoteCard";
+import ReactMarkdown from "react-markdown";
 interface SearchResult {
   answer: string;
   message: string;
+  content: Memory[];
 }
 
 const VectorSearch: React.FC = () => {
@@ -13,20 +17,17 @@ const VectorSearch: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
+  const [searchContent, setSearchContent] = useState<Memory[]>([]);
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearched(true);
-    // Reset previous states
     setSearchResult(null);
     setError(null);
 
-    // Validate query
     if (!query.trim()) {
       setError("Please enter a search query");
       return;
     }
-
-    // Start loading
     setIsLoading(true);
 
     try {
@@ -36,17 +37,15 @@ const VectorSearch: React.FC = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust token retrieval as needed
+            // Authorization: `Bearer ${localStorage.getItem("token")}`
             authorization:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
           },
         }
       );
-
-      // Set the AI-generated answer
+      setSearchContent(response.data.content);
       setSearchResult(response.data.answer);
     } catch (err) {
-      // Handle errors
       if (axios.isAxiosError(err)) {
         setError(
           err.response?.data?.message || "An error occurred during search"
@@ -55,7 +54,6 @@ const VectorSearch: React.FC = () => {
         setError("An unexpected error occurred");
       }
     } finally {
-      // Stop loading
       setIsLoading(false);
     }
   };
@@ -69,6 +67,12 @@ const VectorSearch: React.FC = () => {
         <textarea
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSearch(e);
+            }
+          }}
           placeholder="Ask your memories"
           className="p-2 resize-none flex-grow outline-none text-gray-700 bg-transparent  "
           rows={3}
@@ -119,8 +123,49 @@ const VectorSearch: React.FC = () => {
         {searchResult && (
           <div className="flex">
             <div className="bg-gray-100 rounded-xl p-3">
-              <p className="text-gray-900">{searchResult}</p>
+              {/* {searchResult.split("\n").map((line, index) => (
+                <p key={index} className="text-gray-900">
+                  {line.split(/(https?:\/\/[^\s]+)/).map((part, i) =>
+                    part.match(/https?:\/\/[^\s]+/) ? (
+                      <a
+                        key={i}
+                        href={part}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        visit source
+                      </a>
+                    ) : (
+                      part
+                    )
+                  )}
+                </p>
+              ))} */}
+              <ReactMarkdown
+                className="text-gray-900"
+                components={{
+                  a: ({ node, ...props }) => (
+                    <a {...props} target="_blank" rel="noopener noreferrer" />
+                  ),
+                }}
+              >
+                {searchResult}
+              </ReactMarkdown>
             </div>
+          </div>
+        )}
+
+        {searchContent && (
+          <div>
+            {searchContent.map((memory) => (
+              <Note2
+                type={memory.type}
+                title={memory.title}
+                description={memory.description}
+                url={memory.link || ""}
+              />
+            ))}
           </div>
         )}
       </div>

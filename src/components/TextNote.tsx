@@ -7,12 +7,14 @@ type textProps = {
 
 export default function TextNote({ description, handledelete }: textProps) {
   return (
-    <div className="rounded-2xl border border-gray-300 bg-green-100 px-6 py-8 group relative">
+    <div className="rounded-2xl border border-gray-300 bg-green-50 px-6 py-10 group relative">
       <div className=" bg-gray-200 dark:bg-gray-800 absolute top-0 right-0 text-gray-600 flex items-center gap-1 text-xs  px-2 rounded-3xl py-1 mt-2 mr-2">
         <NotebookPen size={12} />
         Note
       </div>
-      <div className="font-medium">{description}</div>
+      <div className="font-medium max-h-[calc(6*1.5rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent ">
+        {description}
+      </div>
       <div
         className="rounded-full absolute bottom-0 right-0 size-5 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-2 mr-2"
         onClick={handledelete}

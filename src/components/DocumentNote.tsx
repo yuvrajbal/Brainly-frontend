@@ -3,17 +3,21 @@ import { File, FilePen } from "lucide-react";
 type documentProps = {
   filename: string;
   handledelete: () => void;
+  url: string;
 };
 
 export default function DocumentNote({
   filename,
   handledelete,
+  url,
 }: documentProps) {
   return (
     <div className="rounded-2xl group relative border border-gray-300 px-6 pb-4">
       <div className="bg-gray-200 dark:bg-gray-800 absolute top-0 right-0 text-gray-600 flex items-center gap-1 text-xs font-medium px-2 rounded-3xl py-1 mt-2 mr-2">
-        <File size={12} />
-        Document
+        <a href={url} target="_blank" className="flex items-center gap-1">
+          <File size={12} />
+          Document
+        </a>
       </div>
       <div className="pt-10 pb-2 font-semibold overflow-hidden text-ellipsis ">
         {filename}

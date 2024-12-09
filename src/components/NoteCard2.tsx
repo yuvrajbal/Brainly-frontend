@@ -20,7 +20,7 @@ type NoteProps = {
   handledelete: () => void;
 };
 
-const defaultImageUrl =
+export const defaultImageUrl =
   "https://images.unsplash.com/photo-1732454827988-95972d793f1b?q=80&w=1618&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 export default function Note2({
   type,
@@ -49,7 +49,7 @@ export default function Note2({
         <TextNote description={description} handledelete={handledelete} />
       )}
       {type === "document" && (
-        <DocumentNote filename={title} handledelete={handledelete} />
+        <DocumentNote filename={title} handledelete={handledelete} url={url} />
       )}
     </div>
   );
