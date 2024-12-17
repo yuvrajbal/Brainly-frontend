@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import axios from "axios";
 import { Loader2, Search, SearchCheckIcon, SearchIcon } from "lucide-react";
 import { Memory } from "./AllNotes";
@@ -37,9 +37,9 @@ const VectorSearch: React.FC = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${localStorage.getItem("token")}`
-            authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
+            authorization: `${localStorage.getItem("token")}`,
+            // authorization:
+            //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
           },
         }
       );
@@ -57,7 +57,14 @@ const VectorSearch: React.FC = () => {
       setIsLoading(false);
     }
   };
+  let token: string | null = "";
 
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (token) {
+      console.log(token);
+    }
+  }, []);
   return (
     <div className="max-w-2xl mx-auto flex flex-col p-2">
       <form

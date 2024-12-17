@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 export default function NavigationBar() {
   return (
     <nav className="flex">
-      <SearchBar />
+      {/* <SearchBar /> */}
       <div className="flex gap-4">
         <Button text="Share Brain" variant="secondary" icon={Share2} />
         <Button text="Add Content" variant="primary" icon={PlusIcon} />

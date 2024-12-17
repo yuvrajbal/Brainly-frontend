@@ -11,14 +11,14 @@ import {
   NotebookPenIcon,
   Trophy,
 } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import type { FileRouter } from "uploadthing/types";
 import axios from "axios";
 import Button from "./Button";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
-export default function AddContent() {
+export default function AddContent({ onClose }: { onClose: () => void }) {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [textNote, setTextNote] = useState("");
   const [fileUrl, setFileUrl] = useState("");
@@ -175,8 +175,9 @@ export default function AddContent() {
         },
         {
           headers: {
-            authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
+            // authorization:
+            //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
+            authorization: `${localStorage.getItem("token")}`,
           },
         }
       );
@@ -192,9 +193,29 @@ export default function AddContent() {
     setSelectedindex(index);
     setType(value);
   };
+  const addContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        addContentRef.current &&
+        !addContentRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
-    <main className="px-2 pt-6 pb-2 border rounded-lg">
+    <main
+      className="px-2 pt-6 pb-2 border rounded-lg bg-white"
+      ref={addContentRef}
+    >
       <h1 className="flex gap-3 items-center font-semibold mb-6">
         <CirclePlus className="size-4 stroke-2" />
         Add Memory
@@ -246,7 +267,12 @@ export default function AddContent() {
       <form onSubmit={handleAddMemory}>
         {selectedIndex !== null && renderDynamicInput()}
         <div className="flex justify-between mt-8">
-          <Button text="Cancel" variant="secondary" type="button" />
+          <Button
+            text="Cancel"
+            variant="secondary"
+            type="button"
+            onClick={onClose}
+          />
           <Button text="Add Memory" variant="primary" type="submit" />
         </div>
       </form>
