@@ -29,7 +29,7 @@ export default function LinkNote({
   const hostname = parsedUrl.hostname;
 
   return (
-    <div className="flex flex-col gap-6 group relative bg-gray-200 pb-4 rounded-xl">
+    <div className="flex flex-col gap-6 group relative bg-gray-200 pb-4 rounded-xl  mt-6">
       <div className="bg-gray-200 dark:bg-gray-800 absolute top-0 right-0 text-gray-600 flex items-center gap-1 text-xs font-medium px-2 rounded-3xl py-1 mt-2 mr-2">
         <a href={url} target="_blank" className="flex items-center gap-1 ">
           <svg

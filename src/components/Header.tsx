@@ -10,13 +10,16 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import AddContent from "./AddContent";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [isAddContentOpen, setIsAddContentOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userIconRef = useRef<HTMLDivElement>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const navigate = useNavigate();
+
   const getUserCredentials = (name: string) => {
     return name
       .split(" ")
@@ -25,10 +28,25 @@ export default function Header() {
       .join("")
       .toUpperCase();
   };
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    return savedMode ? JSON.parse(savedMode) : false;
+  });
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    }
+  }, [darkMode]);
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    // Add your dark mode implementation logic here
-    // This might involve changing document classes, updating local storage, etc.
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    console.log(JSON.stringify(newMode));
+    localStorage.setItem("darkMode", JSON.stringify(newMode));
+    document.documentElement.classList.toggle("dark", newMode);
   };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,13 +68,20 @@ export default function Header() {
 
   const handleOpenAddContent = () => {
     setIsAddContentOpen(true);
-    // Optionally close dropdown if it's open
     setIsDropDownOpen(false);
   };
 
   // Function to close AddContent component
   const handleCloseAddContent = () => {
     setIsAddContentOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
+  const handleGithub = () => {
+    window.open("https://github.com/yuvrajbal/Brainly-frontend");
   };
 
   return (
@@ -103,74 +128,70 @@ export default function Header() {
             </div>
           </div>
           {isDropDownOpen && (
-            <div
-              ref={dropdownRef}
-              className="absolute right-0 mt-2 w-64 bg-white darl:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg z-50"
-            >
-              <div className="p-4 border-b dark:border-gray-600 flex  items-center">
-                <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">
-                  {getUserCredentials("YuvrajBal")}
+            <div className="fixed inset-0 z-50">
+              <div
+                ref={dropdownRef}
+                className="absolute right-0 mr-4 mt-12 w-64 bg-white darl:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg "
+              >
+                <div className="p-4 border-b dark:border-gray-600 flex  items-center">
+                  <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">
+                    {getUserCredentials("YuvrajBal")}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-800 dark:text-white">
+                      Yuvraj Bal
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-300">
+                      yuvrajbal@openai.com
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-gray-800 dark:text-white">
-                    Yuvraj Bal
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-300">
-                    yuvrajbal@openai.com
-                  </p>
+                <div className="py-1">
+                  <button
+                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={() => {
+                      /* Handle profile */
+                    }}
+                  >
+                    <User className="w-4 h-4 mr-3" /> Profile
+                  </button>
+
+                  <button
+                    className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={toggleDarkMode}
+                  >
+                    {darkMode ? (
+                      <>
+                        <Sun className="w-4 h-4 mr-3" /> Light Mode
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="w-4 h-4 mr-3" /> Dark Mode
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={() => {}}
+                  >
+                    <Code className="w-4 h-4 mr-3" /> API
+                  </button>
+
+                  <button
+                    className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={handleGithub}
+                  >
+                    <Github className="w-4 h-4 mr-3" /> GitHub
+                  </button>
+
+                  <button
+                    className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="w-4 h-4 mr-3" /> Logout
+                  </button>
                 </div>
-              </div>
-              <div className="py-1">
-                <button
-                  className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    /* Handle profile */
-                  }}
-                >
-                  <User className="w-4 h-4 mr-3" /> Profile
-                </button>
-
-                <button
-                  className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={toggleDarkMode}
-                >
-                  {isDarkMode ? (
-                    <>
-                      <Sun className="w-4 h-4 mr-3" /> Light Mode
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="w-4 h-4 mr-3" /> Dark Mode
-                    </>
-                  )}
-                </button>
-
-                <button
-                  className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    /* Handle API settings */
-                  }}
-                >
-                  <Code className="w-4 h-4 mr-3" /> API
-                </button>
-
-                <button
-                  className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    /* Handle GitHub link */
-                  }}
-                >
-                  <Github className="w-4 h-4 mr-3" /> GitHub
-                </button>
-
-                <button
-                  className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600"
-                  onClick={() => {
-                    /* Handle logout */
-                  }}
-                >
-                  <LogOut className="w-4 h-4 mr-3" /> Logout
-                </button>
               </div>
             </div>
           )}

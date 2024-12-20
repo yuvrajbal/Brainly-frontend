@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { deleteContent } from "@/services/contentService";
 import FilterMemories from "./FilterMemories";
 import { ChevronDown, Divide, MoveDown } from "lucide-react";
+import MasonryLayout from "./MasonryLayout";
 
 export interface Memory {
   _id: string;
@@ -134,7 +135,7 @@ export default function AllNotes() {
           <FilterCategory title="Spaces" />
         </div>
       </nav>
-      <div className=" grid grid-cols-1 md:grid-cols-4  gap-4 sm:p-4 mt-4 ">
+      {/* <div className=" grid grid-cols-1 md:grid-cols-4  gap-2 sm:p-4 mt-4 ">
         {filteredmemories.map((memory, index) => (
           <div key={memory._id} className="group relative ">
             <Note2
@@ -168,7 +169,12 @@ export default function AllNotes() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+      <MasonryLayout
+        filteredmemories={filteredmemories}
+        handledelete={handledelete}
+      />
+
       {activeCategory === "Spaces" && (
         <div className="font-semibold text-lg text-center">
           Spaces coming soon...

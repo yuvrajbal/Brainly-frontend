@@ -1,6 +1,13 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import axios from "axios";
-import { Loader2, Search, SearchCheckIcon, SearchIcon } from "lucide-react";
+import {
+  ChevronsDown,
+  ChevronsUp,
+  Loader2,
+  Search,
+  SearchCheckIcon,
+  SearchIcon,
+} from "lucide-react";
 import { Memory } from "./AllNotes";
 import Note2 from "./NoteCard2";
 import Note from "./NoteCard";
@@ -18,6 +25,7 @@ const VectorSearch: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<Memory[]>([]);
+  const [showRelated, setShowRelated] = useState<boolean>(false);
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearched(true);
@@ -66,7 +74,7 @@ const VectorSearch: React.FC = () => {
     }
   }, []);
   return (
-    <div className="max-w-2xl mx-auto flex flex-col p-2">
+    <div className="max-w-5xl mx-auto flex flex-col p-2">
       <form
         onSubmit={handleSearch}
         className="flex rounded-3xl shadow-sm bg-gray-100 p-2"
@@ -126,55 +134,60 @@ const VectorSearch: React.FC = () => {
           </div>
         )}
 
-        {/* Search Result */}
-        {searchResult && (
-          <div className="flex">
-            <div className="bg-gray-100 rounded-xl p-3">
-              {/* {searchResult.split("\n").map((line, index) => (
-                <p key={index} className="text-gray-900">
-                  {line.split(/(https?:\/\/[^\s]+)/).map((part, i) =>
-                    part.match(/https?:\/\/[^\s]+/) ? (
-                      <a
-                        key={i}
-                        href={part}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        visit source
-                      </a>
-                    ) : (
-                      part
-                    )
-                  )}
-                </p>
-              ))} */}
-              <ReactMarkdown
-                className="text-gray-900"
-                components={{
-                  a: ({ node, ...props }) => (
-                    <a {...props} target="_blank" rel="noopener noreferrer" />
-                  ),
-                }}
-              >
-                {searchResult}
-              </ReactMarkdown>
+        <div className="flex flex-col md:flex-row md:gap-6">
+          {/* Search Result */}
+          {searchResult && (
+            <div className="md:w-2/3">
+              <div className="bg-gray-100 rounded-xl p-3 ">
+                <ReactMarkdown
+                  className="text-gray-900"
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <a {...props} target="_blank" rel="noopener noreferrer" />
+                    ),
+                  }}
+                >
+                  {searchResult}
+                </ReactMarkdown>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {searchContent && (
-          <div>
-            {searchContent.map((memory) => (
-              <Note2
-                type={memory.type}
-                title={memory.title}
-                description={memory.description}
-                url={memory.link || ""}
-              />
-            ))}
-          </div>
-        )}
+          {searchContent && searchContent.length > 0 && (
+            <div className="mt-6 md:w-1/3  md:mt-0 ">
+              <h1
+                className="text-lg font-semibold text-gray-500 flex gap-2 items-center"
+                onClick={() => setShowRelated(!showRelated)}
+              >
+                Show related content
+                <div
+                  className={`transform transition-transform duration-200 ${
+                    showRelated ? "rotate-180" : ""
+                  } `}
+                >
+                  <ChevronsDown className="size-4" />
+                </div>
+              </h1>
+              {showRelated && (
+                <div
+                  className={`transition-all duration-200 ease-in-out overflow-hidden ${
+                    showRelated ? "h-auto opacity-100" : "h-0 opacity-0"
+                  }`}
+                >
+                  {searchContent.map((memory) => (
+                    <Note2
+                      key={memory.title}
+                      type={memory.type}
+                      title={memory.title}
+                      description={memory.description}
+                      url={memory.link || ""}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

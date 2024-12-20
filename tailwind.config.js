@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const { withUt } = require("uploadthing/tw");
 export default withUt({
-  darkMode: ["class"],
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {

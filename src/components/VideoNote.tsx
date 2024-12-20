@@ -6,7 +6,7 @@ type videoProps = {
 };
 export default function VideoNote({ id, url, handledelete }: videoProps) {
   return (
-    <div className="rounded-xl overflow-hidden relative group">
+    <div className="rounded-xl overflow-hidden relative group mt-6">
       <ReactPlayer url={url} width={""} />
       {/* <div
         className="rounded-full absolute bottom-0 right-0 size-5 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-2 mr-2"
