@@ -21,6 +21,7 @@ interface SearchResult {
 const VectorSearch: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResult, setSearchResult] = useState<string | null>(null);
+  const [displayedResult, setDisplayedResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
@@ -30,6 +31,8 @@ const VectorSearch: React.FC = () => {
     e.preventDefault();
     setSearched(true);
     setSearchResult(null);
+    setSearchContent([]);
+    setDisplayedResult(null);
     setError(null);
 
     if (!query.trim()) {
@@ -53,6 +56,15 @@ const VectorSearch: React.FC = () => {
       );
       setSearchContent(response.data.content);
       setSearchResult(response.data.answer);
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index < response.data.answer.length) {
+          setDisplayedResult((prev) => prev + response.data.answer[index]);
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 10); // Adjust the delay for the dynamic effect
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(
@@ -74,10 +86,10 @@ const VectorSearch: React.FC = () => {
     }
   }, []);
   return (
-    <div className="max-w-5xl mx-auto flex flex-col p-2">
+    <div className="max-w-7xl mx-auto flex flex-col p-2">
       <form
         onSubmit={handleSearch}
-        className="flex rounded-3xl shadow-sm bg-gray-100 p-2"
+        className="flex rounded-3xl shadow-sm bg-gray-100 p-2 dark:bg-zinc-700"
       >
         <textarea
           value={query}
@@ -89,13 +101,13 @@ const VectorSearch: React.FC = () => {
             }
           }}
           placeholder="Ask your memories"
-          className="p-2 resize-none flex-grow outline-none text-gray-700 bg-transparent  "
-          rows={3}
+          className="p-2 resize-none flex-grow outline-none text-gray-700 bg-transparent dark:text-gray-100 font-semibold dark:placeholder:text-gray-100 "
+          rows={1}
         />
         <button
           type="submit"
           disabled={isLoading}
-          className="self-end rounded-full p-2 bg-black disabled:opacity-50 hover:bg-zinc-800 transition-colors"
+          className=" rounded-full p-3 bg-black dark:bg-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-50 hover:bg-zinc-800 transition-colors"
         >
           {isLoading ? (
             <Loader2 className="size-4 stroke-white animate-spin" />
@@ -117,8 +129,8 @@ const VectorSearch: React.FC = () => {
         {/* Loading State */}
         {isLoading && (
           <div className="flex">
-            <div className="bg-gray-100 rounded-xl p-3 max-w-[80%]">
-              <p className="text-gray-500">
+            <div className="bg-gray-100 dark:bg-zinc-900 rounded-xl p-3 max-w-[80%]">
+              <p className="text-gray-500 dark:text-gray-200">
                 Searching through your memories...
               </p>
             </div>
@@ -138,9 +150,9 @@ const VectorSearch: React.FC = () => {
           {/* Search Result */}
           {searchResult && (
             <div className="md:w-2/3">
-              <div className="bg-gray-100 rounded-xl p-3 ">
+              <div className="bg-gray-100 dark:bg-zinc-900 rounded-xl p-4 ">
                 <ReactMarkdown
-                  className="text-gray-900"
+                  className="text-gray-900 dark:text-gray-200"
                   components={{
                     a: ({ node, ...props }) => (
                       <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -156,7 +168,7 @@ const VectorSearch: React.FC = () => {
           {searchContent && searchContent.length > 0 && (
             <div className="mt-6 md:w-1/3  md:mt-0 ">
               <h1
-                className="text-lg font-semibold text-gray-500 flex gap-2 items-center"
+                className="text-lg font-semibold text-gray-500 dark:text-gray-400 flex gap-2 items-center"
                 onClick={() => setShowRelated(!showRelated)}
               >
                 Show related content
@@ -170,7 +182,7 @@ const VectorSearch: React.FC = () => {
               </h1>
               {showRelated && (
                 <div
-                  className={`transition-all duration-200 ease-in-out overflow-hidden ${
+                  className={`transition-all duration-200 ease-in-out overflow-hidden mt-4 ${
                     showRelated ? "h-auto opacity-100" : "h-0 opacity-0"
                   }`}
                 >
@@ -181,6 +193,7 @@ const VectorSearch: React.FC = () => {
                       title={memory.title}
                       description={memory.description}
                       url={memory.link || ""}
+                      imageUrl={memory.imageUrl}
                     />
                   ))}
                 </div>

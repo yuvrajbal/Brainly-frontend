@@ -83,38 +83,43 @@ export default function Header() {
   const handleGithub = () => {
     window.open("https://github.com/yuvrajbal/Brainly-frontend");
   };
-
+  const navigateHome = () => {
+    navigate("/home");
+  };
   return (
     <header className="flex justify-between items-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="lucide lucide-brain"
-      >
-        <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
-        <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
-        <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
-        <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
-        <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
-        <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
-        <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
-        <path d="M6 18a4 4 0 0 1-1.967-.516" />
-        <path d="M19.967 17.484A4 4 0 0 1 18 18" />
-      </svg>
+      <button onClick={navigateHome}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="lucide lucide-brain dark:text-gray-300"
+        >
+          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+          <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+          <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+          <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+          <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+          <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+          <path d="M6 18a4 4 0 0 1-1.967-.516" />
+          <path d="M19.967 17.484A4 4 0 0 1 18 18" />
+        </svg>
+      </button>
+
       <div className="flex gap-4 items-center">
         <button
-          className="flex items-center gap-1 bg-gray-100 text-gray-900 px-2 py-1 rounded-md"
+          className="rounded-md p-2 flex items-center gap-1 bg-gray-100 text-gray-900 hover:text-gray-800 dark:bg-zinc-900 dark:text-gray-300 dark:hover:text-gray-400 font-medium "
           onClick={handleOpenAddContent}
         >
           <PlusIcon className="w-5 h-5" />
-          Add Memory
+          <div>Add Memory</div>
         </button>
         <div className="relative">
           <div
@@ -122,16 +127,16 @@ export default function Header() {
             ref={userIconRef}
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
           >
-            <ChevronDown />
-            <div className="cursor-pointer rounded-full bg-gray-100 w-8 h-8 flex items-center justify-center">
+            <ChevronDown className="dark:text-gray-500" />
+            <div className="cursor-pointer rounded-full bg-gray-100 dark:bg-zinc-900 dark:text-gray-300 w-8 h-8 flex items-center justify-center">
               {getUserCredentials("YuvrajBal")}
             </div>
           </div>
           {isDropDownOpen && (
-            <div className="fixed inset-0 z-50">
+            <div className="fixed inset-0 z-50 ">
               <div
                 ref={dropdownRef}
-                className="absolute right-0 mr-4 mt-12 w-64 bg-white darl:bg-gray-700 border dark:border-gray-600 rounded-lg shadow-lg "
+                className="absolute right-0 mr-4 mt-12 w-64 bg-white dark:bg-zinc-800 border dark:border-gray-600 rounded-lg shadow-lg "
               >
                 <div className="p-4 border-b dark:border-gray-600 flex  items-center">
                   <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">
@@ -148,7 +153,7 @@ export default function Header() {
                 </div>
                 <div className="py-1">
                   <button
-                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600"
                     onClick={() => {
                       /* Handle profile */
                     }}
@@ -172,7 +177,7 @@ export default function Header() {
                   </button>
 
                   <button
-                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+                    className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600"
                     onClick={() => {}}
                   >
                     <Code className="w-4 h-4 mr-3" /> API

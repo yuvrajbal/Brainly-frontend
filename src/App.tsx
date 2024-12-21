@@ -6,15 +6,17 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="home" element={<Home />} />
-        </Route>
-        <Route path="signin" element={<Signin />} />
-        <Route path="signup" element={<Signup />} />
-      </Routes>
-    </BrowserRouter>
+    <main className="bg-white dark:bg-zinc-800">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="home" element={<Home />} />
+          </Route>
+          <Route path="signin" element={<Signin />} />
+          <Route path="signup" element={<Signup />} />
+        </Routes>
+      </BrowserRouter>
+    </main>
   );
 }
 

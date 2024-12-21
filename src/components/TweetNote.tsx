@@ -6,7 +6,7 @@ type tweetProps = {
 };
 export default function TweetNote({ id, url, handledelete }: tweetProps) {
   return (
-    <div className="light dark:dark m-0 p-0">
+    <div className="light dark:dark ">
       <Tweet id={url} />
       {/* <div
         className="rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-5 mr-5"

@@ -29,16 +29,20 @@ export default function LinkNote({
   const hostname = parsedUrl.hostname;
 
   return (
-    <div className="flex flex-col gap-6 group relative bg-gray-200 pb-4 rounded-xl  mt-6">
+    <div className="flex flex-col gap-6 group relative bg-gray-200 dark:bg-zinc-900 pb-4 rounded-xl ">
       <div className="bg-gray-200 dark:bg-gray-800 absolute top-0 right-0 text-gray-600 flex items-center gap-1 text-xs font-medium px-2 rounded-3xl py-1 mt-2 mr-2">
-        <a href={url} target="_blank" className="flex items-center gap-1 ">
+        <a
+          href={url}
+          target="_blank"
+          className="flex items-center gap-1 dark:text-gray-500 "
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            className="size-4 text-gray-700"
+            className="size-4 text-gray-700 dark:text-gray-400"
           >
             <path
               stroke-linecap="round"
@@ -55,7 +59,7 @@ export default function LinkNote({
         className="w-full h-28 object-cover rounded-t-xl shadow-pink-900 shadow-inner"
       />
       <div className="px-4 flex flex-col gap-2">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-lg font-semibold dark:text-gray-300">{title}</h1>
         {/* <div className="text-base tracking-normal leading-tight text-gray-700 line-clamp-2 overflow-hiddenx">
           {description}
         </div> */}

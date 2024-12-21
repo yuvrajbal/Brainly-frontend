@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Masonry } from "@mui/lab";
 import Box from "@mui/material/Box";
 import Note2 from "./NoteCard2";
+import { PlusIcon } from "lucide-react";
+import AddContent from "./AddContent";
 
 type MasonryProps = {
   _id: string;
@@ -16,13 +18,33 @@ const MasonryLayout = ({
   handledelete,
 }: {
   filteredmemories: MasonryProps[];
-  handledelete: () => void;
+  handledelete: (id: string) => void;
 }) => {
+  const [isAddContentOpen, setIsAddContentOpen] = useState<boolean>(false);
+  const handleCloseAddContent = () => {
+    setIsAddContentOpen(false);
+  };
+  const handleOpenAddContent = () => {
+    setIsAddContentOpen(true);
+  };
   return (
-    <Box sx={{ width: "100%", minHeight: 400 }}>
+    <Box sx={{ width: "100%" }}>
       <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2}>
+        <div
+          className="border-2  border-dashed flex flex-col  p-6 sm:p-8 rounded-xl hover:cursor-pointer transition-all duration-300 ease-in-out
+            hover:scale-105 hover:shadow-lg hover:border-gray-500 dark:border-gray-600 dark:hover:border-gray-400"
+          onClick={handleOpenAddContent}
+        >
+          <PlusIcon className="size-12 p-0 m-0 dark:text-gray-100" />
+          <div className="text-2xl font-semibold mt-2 dark:text-gray-100">
+            Add to your second brain.
+          </div>
+          <div className="text-gray-600 dark:text-gray-400 font-medium mt-4">
+            Add a link, a note, a document,tweet, etc.
+          </div>
+        </div>
         {filteredmemories.map((memory) => (
-          <Box key={memory._id} sx={{ borderRadius: 2, overflow: "hidden" }}>
+          <Box key={memory._id} sx={{ borderRadius: 0, overflow: "hidden" }}>
             <div className="group relative">
               <Note2
                 id={memory._id}
@@ -35,7 +57,7 @@ const MasonryLayout = ({
                 imageUrl={memory.imageUrl}
               />
               <div
-                className={`rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-2 mr-2`}
+                className={`rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 dark:bg-gray-400 mb-2 mr-2`}
                 onClick={() => handledelete(memory._id)}
               >
                 <svg
@@ -44,7 +66,7 @@ const MasonryLayout = ({
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className=""
+                  className="dark:text-gray-900"
                 >
                   <path
                     strokeLinecap="round"
@@ -57,6 +79,13 @@ const MasonryLayout = ({
           </Box>
         ))}
       </Masonry>
+      {isAddContentOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-auto">
+            <AddContent onClose={handleCloseAddContent} />
+          </div>
+        </div>
+      )}
     </Box>
   );
 };

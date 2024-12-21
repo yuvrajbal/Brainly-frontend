@@ -15,6 +15,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import type { FileRouter } from "uploadthing/types";
 import axios from "axios";
 import Button from "./Button";
+import { toast } from "sonner";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
@@ -165,28 +166,41 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
     try {
       e.preventDefault();
       // link(url) , type , filename(document), description(note)
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
-        {
-          type,
-          link: websiteUrl || fileUrl,
-          fileName,
-          description: textNote,
+      toast.promise(
+        async () => {
+          const response = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
+            {
+              type,
+              link: websiteUrl || fileUrl,
+              fileName,
+              description: textNote,
+            },
+            {
+              headers: {
+                authorization: `${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          onClose();
+          setTextNote("");
+          setFileUrl("");
+          setWebsiteUrl("");
+
+          return response.data;
         },
         {
-          headers: {
-            // authorization:
-            //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
-            authorization: `${localStorage.getItem("token")}`,
-          },
+          loading: "Creating memory...",
+          success: "Memory created successfully",
+          error: "Failed to create memory",
+          duration: 3000,
         }
       );
-      console.log(response.data);
-      setTextNote("");
-      setFileUrl("");
-      setWebsiteUrl("");
     } catch (err) {
       console.log("error sending req", err);
+      toast.error("Unable to create memory", {
+        duration: 3000,
+      });
     }
   };
   const handleTypeChange = (value: string, index: number) => {

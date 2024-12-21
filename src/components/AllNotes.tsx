@@ -4,8 +4,16 @@ import Note2 from "./NoteCard2";
 import { useEffect, useState } from "react";
 import { deleteContent } from "@/services/contentService";
 import FilterMemories from "./FilterMemories";
-import { ChevronDown, Divide, MoveDown } from "lucide-react";
+import {
+  ChevronDown,
+  Divide,
+  MoveDown,
+  PlugIcon,
+  PlusIcon,
+} from "lucide-react";
 import MasonryLayout from "./MasonryLayout";
+import { toast, Toaster } from "sonner";
+import { duration } from "@mui/material";
 
 export interface Memory {
   _id: string;
@@ -28,8 +36,6 @@ export default function AllNotes() {
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
         {
           headers: {
-            // authorization:
-            //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDNhNWU1YWFkZTI1YTIwNmNhNDNiNCIsImlhdCI6MTczMjQ4NjYyOX0.OcmW4ZDH-adyZfiBvpom3cVjcdsRWkH-w5M2wNbhXL8",
             authorization: `${localStorage.getItem("token")}`,
           },
         }
@@ -51,10 +57,14 @@ export default function AllNotes() {
       const updatedMemories = memories.filter((memory) => memory._id !== id);
       setMemories(updatedMemories);
       setFilteredMemories(updatedMemories);
+      toast.success("Deleted Memory", {
+        duration: 2000,
+      });
     } catch (err) {
       console.error("error while deleting note", err);
     }
   };
+
   const handleFilterClick = (category: string) => {
     setActiveCategory(category);
     setIsCollapsed(true);
@@ -85,11 +95,11 @@ export default function AllNotes() {
   function FilterCategory({ title }: { title: string }) {
     return (
       <div
-        className={`px-4 rounded-md py-2 font-medium text-gray-600 cursor-pointer text-center ${
+        className={`${
           activeCategory === title
-            ? "bg-gray-100 text-gray-950"
-            : "text-gray-600"
-        } hover:bg-gray-100 hover:text-gray-800 `}
+            ? "bg-gray-100 text-gray-950 dark:bg-zinc-900 dark:text-gray-200"
+            : "text-gray-600 dark:text-gray-400"
+        } px-4 rounded-md py-2 font-medium text-gray-600  cursor-pointer text-center hover:bg-gray-100 hover:text-gray-950 dark:hover:bg-zinc-900 dark:hover:text-gray-200 `}
         onClick={() => handleFilterClick(title)}
       >
         {title}
@@ -99,7 +109,8 @@ export default function AllNotes() {
 
   return (
     <main className="min-h-screen">
-      <nav className="flex flex-col sm:flex-row">
+      <Toaster richColors />
+      <nav className="flex flex-col ">
         <div
           className="bg-zinc-900 text-white py-2 flex justify-center gap-1 sm:hidden font-medium items-center rounded-md "
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -123,7 +134,7 @@ export default function AllNotes() {
               : "max-h-screen opacity-100"
           }
           sm:max-h-full sm:opacity-100
-          dark:bg-zinc-900 sm:bg-transparent shadow-lg rounded-lg
+          dark:bg-transparent sm:bg-transparent  rounded-lg
         `}
         >
           <FilterCategory title="All Memories" />
@@ -135,48 +146,15 @@ export default function AllNotes() {
           <FilterCategory title="Spaces" />
         </div>
       </nav>
-      {/* <div className=" grid grid-cols-1 md:grid-cols-4  gap-2 sm:p-4 mt-4 ">
-        {filteredmemories.map((memory, index) => (
-          <div key={memory._id} className="group relative ">
-            <Note2
-              id={memory._id}
-              key={memory._id}
-              type={memory.type}
-              title={memory.title}
-              description={memory.description}
-              url={memory.link || ""}
-              handledelete={() => {}}
-              imageUrl={memory.imageUrl}
-            />
-            <div
-              className={`rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 mb-2 mr-2`}
-              onClick={() => handledelete(memory._id)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className=""
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </div>
-          </div>
-        ))}
-      </div> */}
-      <MasonryLayout
-        filteredmemories={filteredmemories}
-        handledelete={handledelete}
-      />
+      <div className="my-8">
+        <MasonryLayout
+          filteredmemories={filteredmemories}
+          handledelete={handledelete}
+        />
+      </div>
 
       {activeCategory === "Spaces" && (
-        <div className="font-semibold text-lg text-center">
+        <div className="font-semibold text-2xl text-center">
           Spaces coming soon...
         </div>
       )}
