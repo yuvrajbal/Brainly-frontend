@@ -6,7 +6,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 function App() {
   return (
-    <main className="bg-white dark:bg-zinc-800">
+    <main className="bg-white dark:bg-black">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>

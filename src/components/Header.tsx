@@ -87,7 +87,7 @@ export default function Header() {
     navigate("/home");
   };
   return (
-    <header className="flex justify-between items-center">
+    <header className=" flex justify-between items-center  dark:bg-black/85 py-4 px-2  backdrop-blur-md">
       <button onClick={navigateHome}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -202,13 +202,13 @@ export default function Header() {
           )}
         </div>
       </div>
-      {isAddContentOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative w-full max-w-md max-h-[90vh] overflow-auto">
+      {/* {isAddContentOpen && (
+        <div className=" fixed inset-0 z-50 flex items-center justify-center bg-black  bg-opacity-50">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-auto ">
             <AddContent onClose={handleCloseAddContent} />
           </div>
         </div>
-      )}
+      )} */}
     </header>
   );
 }

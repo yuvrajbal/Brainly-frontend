@@ -85,11 +85,17 @@ const VectorSearch: React.FC = () => {
       console.log(token);
     }
   }, []);
+  const scrollToBottom = () => {
+    const target = document.getElementById("memories");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
-    <div className="max-w-7xl mx-auto flex flex-col p-2">
+    <div className="max-w-5xl min-h-screen mx-auto flex flex-col  ">
       <form
         onSubmit={handleSearch}
-        className="flex rounded-3xl shadow-sm bg-gray-100 p-2 dark:bg-zinc-700"
+        className="flex rounded-3xl shadow-sm p-2 dark:bg-zinc-700 bg-white border border-neutral-200"
       >
         <textarea
           value={query}
@@ -101,13 +107,13 @@ const VectorSearch: React.FC = () => {
             }
           }}
           placeholder="Ask your memories"
-          className="p-2 resize-none flex-grow outline-none text-gray-700 bg-transparent dark:text-gray-100 font-semibold dark:placeholder:text-gray-100 "
-          rows={1}
+          className="p-2 resize-none flex-grow outline-none bg-transparent text-gray-900 dark:text-gray-100 font-semibold dark:placeholder:text-gray-100 placeholder:text-gray-500"
+          rows={3}
         />
         <button
           type="submit"
           disabled={isLoading}
-          className=" rounded-full p-3 bg-black dark:bg-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-50 hover:bg-zinc-800 transition-colors"
+          className="self-end rounded-full p-3 bg-black dark:bg-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-50 hover:bg-zinc-800 transition-colors"
         >
           {isLoading ? (
             <Loader2 className="size-4 stroke-white animate-spin" />
@@ -150,9 +156,9 @@ const VectorSearch: React.FC = () => {
           {/* Search Result */}
           {searchResult && (
             <div className="md:w-2/3">
-              <div className="bg-gray-100 dark:bg-zinc-900 rounded-xl p-4 ">
+              <div className="bg-gray-50 dark:bg-zinc-900 rounded-xl p-4">
                 <ReactMarkdown
-                  className="text-gray-900 dark:text-gray-200"
+                  className="text-gray-900 dark:text-gray-200 font-semibold"
                   components={{
                     a: ({ node, ...props }) => (
                       <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -201,6 +207,13 @@ const VectorSearch: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+      <div
+        className="text-white   bottom-20 flex gap-2 font-semibold hover:text-gray-500"
+        onClick={scrollToBottom}
+      >
+        <ChevronsDown />
+        Scroll to View your Memories
       </div>
     </div>
   );

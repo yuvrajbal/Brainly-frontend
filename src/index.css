@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .dark {
-  background-color: #27272a;
+  background-color: black;
 }

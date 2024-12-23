@@ -4,10 +4,11 @@ import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
   return (
-    <main className="p-2">
+    <main className="pt-20">
       <SearchBar />
-      {/* <AddContent /> */}
       <AllNotes />
+
+      {/* <AddContent /> */}
     </main>
   );
 }

@@ -108,7 +108,7 @@ export default function AllNotes() {
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" id="memories">
       <Toaster richColors />
       <nav className="flex flex-col ">
         <div
