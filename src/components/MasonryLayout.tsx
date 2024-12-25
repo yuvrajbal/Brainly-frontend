@@ -29,7 +29,7 @@ const MasonryLayout = ({
   };
   return (
     <Box sx={{ width: "100%" }}>
-      <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2}>
+      <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={3}>
         <div
           className="bg-white dark:bg-black border-2  border-dashed flex flex-col  p-6 sm:p-8 rounded-xl hover:cursor-pointer transition-all duration-300 ease-in-out
             hover:scale-105 hover:shadow-lg hover:border-gray-500 dark:border-gray-600 dark:hover:border-gray-400"

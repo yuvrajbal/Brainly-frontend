@@ -51,3 +51,20 @@ export const signIn = async (data:userSchemaType) => {
     return err
   }
 }
+
+export const getUsername = async () => {
+  const token = localStorage.getItem("token")
+  try{
+    const response = await axios.get(`${baseUrl}getusername`,{
+      headers:{
+        authorization:token
+      }
+    } )
+    if(response.status === 200){
+      return response.data.username
+    }
+  }catch(err){
+    console.log("error while getting username")
+  }
+
+}

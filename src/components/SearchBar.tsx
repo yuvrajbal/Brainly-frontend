@@ -92,10 +92,10 @@ const VectorSearch: React.FC = () => {
     }
   };
   return (
-    <div className="max-w-5xl min-h-screen mx-auto flex flex-col  ">
+    <div className="w-full  mx-auto flex flex-col  ">
       <form
         onSubmit={handleSearch}
-        className="flex rounded-3xl shadow-sm p-2 dark:bg-zinc-700 bg-white border border-neutral-200"
+        className="flex rounded-3xl shadow-sm p-2 dark:bg-zinc-700 bg-white border border-neutral-200 dark:border-none  "
       >
         <textarea
           value={query}
@@ -107,18 +107,18 @@ const VectorSearch: React.FC = () => {
             }
           }}
           placeholder="Ask your memories"
-          className="p-2 resize-none flex-grow outline-none bg-transparent text-gray-900 dark:text-gray-100 font-semibold dark:placeholder:text-gray-100 placeholder:text-gray-500"
+          className="p-2 resize-none flex-grow outline-none bg-transparent text-gray-900 dark:text-gray-100 font-semibold dark:placeholder:text-gray-400 placeholder:text-gray-500"
           rows={3}
         />
         <button
           type="submit"
           disabled={isLoading}
-          className="self-end rounded-full p-3 bg-black dark:bg-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-50 hover:bg-zinc-800 transition-colors"
+          className="self-end rounded-full p-3 bg-neutral-800 dark:bg-black  dark:hover:bg-zinc-950 disabled:opacity-50 hover:bg-neutral-600 transition-colors"
         >
           {isLoading ? (
             <Loader2 className="size-4 stroke-white animate-spin" />
           ) : (
-            <SearchIcon className="size-4 stroke-white" />
+            <SearchIcon className="size-4 stroke-white dark:stroke-gray-300" />
           )}
         </button>
       </form>
@@ -207,13 +207,6 @@ const VectorSearch: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
-      <div
-        className="text-white   bottom-20 flex gap-2 font-semibold hover:text-gray-500"
-        onClick={scrollToBottom}
-      >
-        <ChevronsDown />
-        Scroll to View your Memories
       </div>
     </div>
   );

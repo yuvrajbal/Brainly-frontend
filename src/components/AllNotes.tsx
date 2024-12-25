@@ -108,7 +108,7 @@ export default function AllNotes() {
   }
 
   return (
-    <main className="min-h-screen" id="memories">
+    <main className="min-h-screen pt-20 " id="memories">
       <Toaster richColors />
       <nav className="flex flex-col ">
         <div
@@ -146,7 +146,7 @@ export default function AllNotes() {
           <FilterCategory title="Spaces" />
         </div>
       </nav>
-      <div className="my-8">
+      <div className="my-8 pl-6">
         <MasonryLayout
           filteredmemories={filteredmemories}
           handledelete={handledelete}
@@ -154,7 +154,7 @@ export default function AllNotes() {
       </div>
 
       {activeCategory === "Spaces" && (
-        <div className="font-semibold text-2xl text-center">
+        <div className="font-semibold text-2xl text-center text-gray-400">
           Spaces coming soon...
         </div>
       )}
