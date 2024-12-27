@@ -29,10 +29,13 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
     switch (selectedIndex) {
       case 0:
         return (
-          <div className="mt-4 rounded-md border border-blue-100 p-4 shadow-md">
+          <div className="mt-4 rounded-md border border-blue-100 dark:border-stone-700 p-4 shadow-md dark:bg-stone-900">
             <div className="flex gap-2 items-center">
               <Link className="size-4 stroke-blue-500" />
-              <label htmlFor="url" className="text-sm font-medium">
+              <label
+                htmlFor="url"
+                className="text-sm font-medium dark:text-gray-200"
+              >
                 Website or Tweet URL
               </label>
             </div>
@@ -41,17 +44,20 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
               name="url"
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
-              className="mt-4 w-full px-2 py-1 border rounded-md focus:outline-blue-500"
+              className="mt-4 w-full px-2 py-1 border rounded-md focus:outline-blue-500 dark:border-neutral-700  dark:bg-neutral-900 dark:focus:outline-neutral-700 dark:text-gray-200 dark:placeholder:text-gray-500"
               placeholder="https://google.com"
             />
           </div>
         );
       case 1:
         return (
-          <div className="mt-4 rounded-md border border-green-100 p-4 shadow-md">
+          <div className="mt-4 rounded-md border border-green-100 dark:border-stone-700 p-4 shadow-md dark:bg-stone-900">
             <div className="flex gap-2 items-center">
               <NotebookIcon className="size-4 stroke-green-500" />
-              <label htmlFor="note" className="text-sm font-medium">
+              <label
+                htmlFor="note"
+                className="text-sm font-medium dark:text-gray-200"
+              >
                 Note
               </label>
             </div>
@@ -61,14 +67,13 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
               onChange={(e) => setTextNote(e.target.value)}
               placeholder="Add your note"
               rows={3}
-              className="mt-4 w-full p-4 border rounded-md focus:outline-zinc-900 font-semibold"
+              className="mt-4 w-full p-4 border rounded-md focus:outline-zinc-900 font-semibold dark:bg-neutral-900 dark:text-gray-200 dark:border-neutral-700  "
             />
           </div>
         );
       case 2:
         return (
-          <div className="mt-4 rounded-md border border-yellow-100 p-4 shadow-md">
-            {/* {`${import.meta.env.VITE_BACKEND_URL}`} */}
+          <div className="mt-4 rounded-md border border-yellow-100 dark:border-stone-700 p-4 shadow-md dark:bg-stone-900">
             <UploadButton<OurFileRouter, "pdfUploader">
               url={`${import.meta.env.VITE_BACKEND_URL}/api/uploadthing`}
               endpoint="pdfUploader"
@@ -107,8 +112,8 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
         );
       case 3:
         return (
-          <div className="mt-4 rounded-md border border-purple-100 p-4 shadow-md">
-            <h1 className="text-sm font-semibold ">
+          <div className="mt-4 rounded-md border border-purple-100 dark:bg-stone-900 dark:border-stone-700 p-4 shadow-md">
+            <h1 className="text-sm font-semibold dark:text-gray-300 ">
               We are working X and Notion integrations
             </h1>
           </div>
@@ -135,29 +140,29 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
       ),
       label: "Website",
       value: "link",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
+      bgColor: "bg-blue-50 dark:bg-blue-950",
+      borderColor: "border-blue-200 dark:border-blue-900",
     },
     {
       icon: <NotebookPenIcon className="size-4 stroke-green-500" />,
       label: "Note",
       value: "note",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
+      bgColor: "bg-green-50 dark:bg-emerald-950",
+      borderColor: "border-green-200 dark:border-emerald-900",
     },
     {
       icon: <File className="size-4 stroke-yellow-500" />,
       label: "Document",
       value: "document",
-      bgColor: "bg-yellow-50",
-      borderColor: "border-yellow-200",
+      bgColor: "bg-yellow-50 dark:bg-yellow-950",
+      borderColor: "border-yellow-200 dark:border-yellow-900",
     },
     {
       icon: <Merge className="size-4 stroke-purple-500" />,
       label: "Integrations",
       value: "integration",
-      bgColor: "bg-purple-50",
-      borderColor: "border-purple-200",
+      bgColor: "bg-purple-50 dark:bg-purple-950",
+      borderColor: "border-purple-200 dark:border-purple-900",
     },
   ];
   const [selectedIndex, setSelectedindex] = useState(0);
@@ -227,56 +232,29 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
 
   return (
     <main
-      className="px-2 pt-6 pb-2 border rounded-lg bg-white"
+      className="px-2 pt-6 pb-2 border rounded-lg bg-white dark:bg-neutral-800 dark:border-none"
       ref={addContentRef}
     >
-      <h1 className="flex gap-3 items-center font-semibold mb-6">
+      <h1 className="flex gap-3 items-center font-semibold mb-6 dark:text-gray-200">
         <CirclePlus className="size-4 stroke-2" />
         Add Memory
       </h1>
-      <div className="group grid grid-cols-4 border p-2 rounded-md bg-gray-50">
+      <div className="group grid grid-cols-4 border p-2 rounded-md bg-gray-50 dark:bg-stone-900 dark:border-neutral-700">
         {items.map((item, index) => (
           <div
             className={`p-3 rounded-md text-sm font-medium cursor-pointer ${
-              selectedIndex === index ? `${item.bgColor}` : "hover:bg-gray-100"
+              selectedIndex === index
+                ? `${item.bgColor}`
+                : "hover:bg-gray-100 dark:bg-inherit"
             }
               ${selectedIndex === index ? `border ${item.borderColor}` : ""}`}
             key={item.label}
             onClick={() => handleTypeChange(item.value, index)}
           >
             {item.icon}
-            <div className="mt-2">{item.label}</div>
+            <div className="mt-2 dark:text-gray-300">{item.label}</div>
           </div>
         ))}
-        {/* <div className="p-2 rounded-md border text-sm font-medium hover:bg-gray-100">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-            />
-          </svg>
-          <div className="mt-2">Website</div>
-        </div>
-        <div className="p-2 rounded-md border text-sm font-medium">
-          <NotebookPenIcon className="size-4" />
-          <div className="mt-2">Note</div>
-        </div>
-        <div className="p-2 rounded-md border text-sm font-medium">
-          <File className="size-4" />
-          <div className="mt-2">Document</div>
-        </div>
-        <div className="p-2 rounded-md border text-sm font-medium">
-          <Merge className="size-4" />
-          <div className="mt-2">Integrations</div>
-        </div> */}
       </div>
       <form onSubmit={handleAddMemory}>
         {selectedIndex !== null && renderDynamicInput()}

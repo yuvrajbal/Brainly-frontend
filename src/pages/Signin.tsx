@@ -27,7 +27,7 @@ export default function Signin() {
     }
   };
   return (
-    <main className="mx-auto max-w-5xl p-2 min-h-screen flex justify-center mt-16">
+    <main className="mx-auto max-w-5xl pt-20 flex justify-center ">
       <UserSignForm type="signin" submit={handleSignIn} />
     </main>
   );

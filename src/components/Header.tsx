@@ -105,7 +105,7 @@ export default function Header({
   });
   return (
     <div className=" fixed top-0 left-0 right-0 z-50 bg-white dark:bg-black/85 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[2000px] mx-auto">
         <header className=" flex justify-between items-center  py-4 px-2 sm:px-6  ">
           <button onClick={navigateHome}>
             <svg

@@ -108,7 +108,10 @@ export default function AllNotes() {
   }
 
   return (
-    <main className="min-h-screen pt-20 " id="memories">
+    <main
+      className="min-h-screen pt-20 max-w-[2000px] lg:px-12 mx-auto   "
+      id="memories"
+    >
       <Toaster richColors />
       <nav className="flex flex-col ">
         <div
@@ -146,7 +149,7 @@ export default function AllNotes() {
           <FilterCategory title="Spaces" />
         </div>
       </nav>
-      <div className="my-8 pl-6">
+      <div className="my-8 pl-6  ">
         <MasonryLayout
           filteredmemories={filteredmemories}
           handledelete={handledelete}

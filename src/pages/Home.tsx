@@ -7,8 +7,8 @@ import SearchBar from "@/components/SearchBar";
 export default function Home() {
   return (
     <main className="py-24">
-      <div className="pt-8 max-w-5xl mx-auto min-h-screen flex flex-col justify-between   ">
-        <div>
+      <div className="pt-8 max-w-7xl mx-auto min-h-screen flex flex-col justify-between   ">
+        <div className="px-4 sm:px-8">
           <Greeting />
           <SearchBar />
         </div>

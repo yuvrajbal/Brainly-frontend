@@ -17,7 +17,7 @@ type NoteProps = {
   imageUrl?: string;
   tags?: string[];
   className?: string;
-  handledelete: () => void;
+  handledelete?: () => void;
 };
 
 export const defaultImageUrl =

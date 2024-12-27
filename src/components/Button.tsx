@@ -19,8 +19,9 @@ export default function Button({
   disabled = false,
 }: ButtonProps) {
   const variantStyles = {
-    primary: "bg-indigo-600 text-white",
-    secondary: "bg-indigo-100 text-blue-900",
+    primary: "bg-indigo-600 text-white dark:bg-stone-950 dark:text-gray-300",
+    secondary:
+      "bg-indigo-100 text-blue-900 dark:bg-stone-900 dark:text-gray-300",
   };
 
   return (

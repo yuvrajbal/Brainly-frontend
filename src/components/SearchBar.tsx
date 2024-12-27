@@ -12,6 +12,8 @@ import { Memory } from "./AllNotes";
 import Note2 from "./NoteCard2";
 import Note from "./NoteCard";
 import ReactMarkdown from "react-markdown";
+import SwipableCard from "./SwipableCard";
+import SwipableStack from "./SwipableCard";
 interface SearchResult {
   answer: string;
   message: string;
@@ -91,6 +93,14 @@ const VectorSearch: React.FC = () => {
       target.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const handleSwipeLeft = (memory: Memory) => {
+    console.log("Swiped left:", memory);
+  };
+
+  const handleSwipeRight = (memory: Memory) => {
+    console.log("Swiped right:", memory);
+  };
   return (
     <div className="w-full  mx-auto flex flex-col  ">
       <form
@@ -158,7 +168,7 @@ const VectorSearch: React.FC = () => {
             <div className="md:w-2/3">
               <div className="bg-gray-50 dark:bg-zinc-900 rounded-xl p-4">
                 <ReactMarkdown
-                  className="text-gray-900 dark:text-gray-200 font-semibold"
+                  className="text-gray-900 dark:text-gray-200 font-normal text-lg"
                   components={{
                     a: ({ node, ...props }) => (
                       <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -192,16 +202,19 @@ const VectorSearch: React.FC = () => {
                     showRelated ? "h-auto opacity-100" : "h-0 opacity-0"
                   }`}
                 >
-                  {searchContent.map((memory) => (
-                    <Note2
-                      key={memory.title}
-                      type={memory.type}
-                      title={memory.title}
-                      description={memory.description}
-                      url={memory.link || ""}
-                      imageUrl={memory.imageUrl}
-                    />
-                  ))}
+                  <div className="flex flex-col gap-4">
+                    {searchContent.slice(0, 2).map((memory) => (
+                      <Note2
+                        key={memory.title}
+                        type={memory.type}
+                        title={memory.title}
+                        description={memory.description}
+                        url={memory.link || ""}
+                        imageUrl={memory.imageUrl}
+                        id={memory._id}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

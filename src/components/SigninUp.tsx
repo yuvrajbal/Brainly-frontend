@@ -39,9 +39,9 @@ export default function UserSignForm({ type, submit }: formProps) {
   } = useForm<userSchemaType>({ resolver: zodResolver(userSchema) });
 
   return (
-    <main className="w-full max-w-md">
+    <main className="w-full max-w-md  dark:bg-stone-900 py-12 px-6 rounded-xl ">
       <Toaster richColors />
-      <h1 className="text-xl font-semibold text-center">
+      <h1 className="text-xl font-semibold text-center dark:text-gray-300">
         {type === "signin"
           ? "Sign In to your account"
           : "Sign Up to create account"}
@@ -52,7 +52,7 @@ export default function UserSignForm({ type, submit }: formProps) {
       >
         <div className="flex flex-col gap-2">
           <label
-            className="font-medium text-gray-700 text-md"
+            className="font-medium text-gray-700 text-md dark:text-gray-300"
             htmlFor="username"
           >
             Username
@@ -62,7 +62,7 @@ export default function UserSignForm({ type, submit }: formProps) {
             type="text"
             {...register("username")}
             placeholder="John Smith"
-            className="placeholder-gray-400 w-full text-gray-900 px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 "
+            className="dark:bg-stone-900 dark:text-gray-200 placeholder-gray-400 w-full text-gray-900 px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 "
             // value={username}
             // onChange={(e) => setUsername(e.target.value)}
           />
@@ -74,7 +74,7 @@ export default function UserSignForm({ type, submit }: formProps) {
         </div>
         <div className="flex flex-col gap-2">
           <label
-            className="font-medium text-gray-700 text-md"
+            className="font-medium text-gray-700 text-md dark:text-gray-300"
             htmlFor="password"
           >
             Password
@@ -84,9 +84,7 @@ export default function UserSignForm({ type, submit }: formProps) {
             type="password"
             {...register("password")}
             placeholder="John@Smith123"
-            className="placeholder-gray-400 w-full text-gray-900 px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 "
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)}
+            className="dark:bg-stone-900 dark:text-gray-200 placeholder-gray-400 w-full text-gray-900 px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 "
           />
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
