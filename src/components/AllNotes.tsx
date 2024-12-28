@@ -1,19 +1,8 @@
-import axios from "axios";
-import Note from "./NoteCard";
-import Note2 from "./NoteCard2";
 import { useEffect, useState } from "react";
-import { deleteContent } from "@/services/contentService";
-import FilterMemories from "./FilterMemories";
-import {
-  ChevronDown,
-  Divide,
-  MoveDown,
-  PlugIcon,
-  PlusIcon,
-} from "lucide-react";
+
+import { ChevronDown } from "lucide-react";
 import MasonryLayout from "./MasonryLayout";
-import { toast, Toaster } from "sonner";
-import { duration } from "@mui/material";
+import { Toaster } from "sonner";
 
 export interface Memory {
   _id: string;

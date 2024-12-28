@@ -1,21 +1,10 @@
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  ChevronsDown,
-  ChevronsUp,
-  Loader2,
-  Search,
-  SearchCheckIcon,
-  SearchIcon,
-} from "lucide-react";
+import { ChevronsDown, Loader2, SearchIcon } from "lucide-react";
 import { Memory } from "./AllNotes";
 import Note2 from "./NoteCard2";
-import Note from "./NoteCard";
 import ReactMarkdown from "react-markdown";
-import SwipableCard from "./SwipableCard";
-import SwipableStack from "./SwipableCard";
 import HeroCard from "./HeroCard";
-import { dividerClasses } from "@mui/material";
 interface SearchResult {
   answer: string;
   message: string;
@@ -25,18 +14,23 @@ interface SearchResult {
 const VectorSearch: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResult, setSearchResult] = useState<string | null>(null);
-  const [displayedResult, setDisplayedResult] = useState<string | null>(null);
+  // const [displayedResult, setDisplayedResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [searched, setSearched] = useState<boolean>(false);
+  // const [searched, setSearched] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<Memory[]>([]);
   const [showRelated, setShowRelated] = useState<boolean>(true);
-  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+
+  const handleSearch = async (
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     e.preventDefault();
-    setSearched(true);
+    // setSearched(true);
     setSearchResult(null);
     setSearchContent([]);
-    setDisplayedResult(null);
+    // setDisplayedResult(null);
     setError(null);
 
     if (!query.trim()) {
@@ -60,15 +54,6 @@ const VectorSearch: React.FC = () => {
       );
       setSearchContent(response.data.content);
       setSearchResult(response.data.answer);
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index < response.data.answer.length) {
-          setDisplayedResult((prev) => prev + response.data.answer[index]);
-          index++;
-        } else {
-          clearInterval(interval);
-        }
-      }, 10); // Adjust the delay for the dynamic effect
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(
@@ -89,12 +74,6 @@ const VectorSearch: React.FC = () => {
       console.log(token);
     }
   }, []);
-  const scrollToBottom = () => {
-    const target = document.getElementById("memories");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <div className=" flex flex-col lg:flex-row lg:gap-8 gap-4 ">
@@ -171,45 +150,6 @@ const VectorSearch: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* {searchContent && searchContent.length > 0 && (
-            <div className="mt-6 md:w-1/3  md:mt-0 ">
-              <h1
-                className="text-lg font-semibold text-gray-500 dark:text-gray-400 flex gap-2 items-center"
-                onClick={() => setShowRelated(!showRelated)}
-              >
-                Show related content
-                <div
-                  className={`transform transition-transform duration-200 ${
-                    showRelated ? "rotate-180" : ""
-                  } `}
-                >
-                  <ChevronsDown className="size-4" />
-                </div>
-              </h1>
-              {showRelated && (
-                <div
-                  className={`transition-all duration-200 ease-in-out overflow-hidden mt-4 ${
-                    showRelated ? "h-auto opacity-100" : "h-0 opacity-0"
-                  }`}
-                >
-                  <div className="flex flex-col gap-4">
-                    {searchContent.slice(0, 1).map((memory) => (
-                      <Note2
-                        key={memory.title}
-                        type={memory.type}
-                        title={memory.title}
-                        description={memory.description}
-                        url={memory.link || ""}
-                        imageUrl={memory.imageUrl}
-                        id={memory._id}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )} */}
           </div>
         </div>
       </div>

@@ -1,10 +1,9 @@
-import { Code, Github, LogIn, LogOut, Moon, Sun, User } from "lucide-react";
+import { Code, Github, LogOut, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function UserModal({ onClose }: { onClose: () => void }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [loggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const [darkMode, setDarkMode] = useState(() => {

@@ -1,8 +1,5 @@
-import { Tweet } from "react-tweet";
-import { contentTypes, contentType } from "./contentTypes";
-import ReactPlayer from "react-player";
-import Tag from "./Tag";
-import { Divide } from "lucide-react";
+import { contentType } from "./contentTypes";
+
 import LinkNote from "./LinkNote";
 import VideoNote from "./VideoNote";
 import TweetNote from "./TweetNote";
@@ -29,9 +26,6 @@ export default function Note2({
   description,
   imageUrl,
   url,
-  tags,
-  className,
-  handledelete,
 }: NoteProps) {
   return (
     <div className="">
@@ -42,25 +36,13 @@ export default function Note2({
           title={title}
           description={description}
           imageUrl={imageUrl}
-          handledelete={handledelete}
         />
       )}
-      {type === "video" && (
-        <VideoNote id={id} url={url} handledelete={handledelete} />
-      )}
-      {type === "tweet" && (
-        <TweetNote id={id} url={url} handledelete={handledelete} />
-      )}
-      {type === "note" && (
-        <TextNote description={description} handledelete={handledelete} />
-      )}
+      {type === "video" && <VideoNote url={url} />}
+      {type === "tweet" && <TweetNote url={url} />}
+      {type === "note" && <TextNote description={description} />}
       {type === "document" && (
-        <DocumentNote
-          id={id}
-          filename={title}
-          handledelete={handledelete}
-          url={url}
-        />
+        <DocumentNote id={id} filename={title} url={url} />
       )}
     </div>
   );

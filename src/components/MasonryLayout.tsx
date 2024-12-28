@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Masonry } from "@mui/lab";
 import Box from "@mui/material/Box";
 import Note2 from "./NoteCard2";
 import { PlusIcon } from "lucide-react";
-import AddContent from "./AddContent";
 
 type MasonryProps = {
   _id: string;
@@ -24,10 +23,6 @@ const MasonryLayout = ({
   modalState: boolean;
   setModalState: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [isAddContentOpen, setIsAddContentOpen] = useState<boolean>(false);
-  const handleCloseAddContent = () => {
-    setIsAddContentOpen(false);
-  };
   const handleOpenAddContent = () => {
     setModalState(!modalState);
   };
@@ -83,13 +78,6 @@ const MasonryLayout = ({
           </Box>
         ))}
       </Masonry>
-      {/* {isAddContentOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative w-full max-w-md max-h-[90vh] overflow-auto">
-            <AddContent onClose={handleCloseAddContent} />
-          </div>
-        </div>
-      )} */}
     </Box>
   );
 };

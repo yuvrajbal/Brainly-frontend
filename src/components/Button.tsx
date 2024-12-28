@@ -1,4 +1,4 @@
-import { Icon, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 type ButtonProps = {
   icon?: LucideIcon;

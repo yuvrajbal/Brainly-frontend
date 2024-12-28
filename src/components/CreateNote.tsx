@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 import Button from "./Button";
-import { text } from "stream/consumers";
 
 export default function CreateNote() {
   const [url, setUrl] = useState("");

@@ -1,18 +1,6 @@
-import {
-  ChevronDown,
-  Code,
-  Github,
-  LogIn,
-  LogOut,
-  Moon,
-  PlusIcon,
-  Sun,
-  User,
-} from "lucide-react";
+import { ChevronDown, PlusIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import AddContent from "./AddContent";
 import { useNavigate } from "react-router-dom";
-import { buttonBaseClasses } from "@mui/material";
 import Button from "./Button";
 
 export default function Header({
@@ -26,9 +14,6 @@ export default function Header({
   userModalState: boolean;
   setUserModalState: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const [isAddContentOpen, setIsAddContentOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const userIconRef = useRef<HTMLDivElement>(null);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -41,65 +26,27 @@ export default function Header({
       .join("")
       .toUpperCase();
   };
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    return savedMode ? JSON.parse(savedMode) : true;
-  });
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.remove("light");
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-    }
-  }, [darkMode]);
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    console.log(JSON.stringify(newMode));
-    localStorage.setItem("darkMode", JSON.stringify(newMode));
-    document.documentElement.classList.toggle("dark", newMode);
-  };
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        userIconRef.current &&
-        !userIconRef.current.contains(event.target as Node)
-      ) {
-        setIsDropDownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // const [darkMode, setDarkMode] = useState(() => {
+  //   const savedMode = localStorage.getItem("darkMode");
+  //   return savedMode ? JSON.parse(savedMode) : true;
+  // });
+  // useEffect(() => {
+  //   if (darkMode) {
+  //     document.documentElement.classList.remove("light");
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //     document.documentElement.classList.add("light");
+  //   }
+  // }, [darkMode]);
 
   const handleOpenAddContent = () => {
     setModalState(!modalState);
-    // setIsAddContentOpen(true);
-    // setIsDropDownOpen(false);
   };
   const handleOpenUserModal = () => {
     setUserModalState(!userModalState);
   };
 
-  // Function to close AddContent componentp
-  const handleCloseAddContent = () => {
-    setIsAddContentOpen(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/signin");
-  };
-  const handleGithub = () => {
-    window.open("https://github.com/yuvrajbal/Brainly-frontend");
-  };
   const navigateHome = () => {
     navigate("/home");
   };

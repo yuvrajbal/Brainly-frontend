@@ -44,13 +44,13 @@ export default function Home() {
 
   const handledelete = async (id: string) => {
     try {
-      const response = await deleteContent(id);
+      await deleteContent(id);
       const updatedMemories = memories.filter((memory) => memory._id !== id);
       setMemories(updatedMemories);
 
       toast.success("Deleted Memory", {
         duration: 2000,
-      });
+    });
     } catch (err) {
       console.error("error while deleting note", err);
     }

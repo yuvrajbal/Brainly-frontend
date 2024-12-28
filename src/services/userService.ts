@@ -1,8 +1,10 @@
 import { userSchemaType } from "@/components/SigninUp";
-import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios"
 import {toast} from "sonner"
 const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/api/v1/`;
+interface ErrorResponse {
+  message: string;
+}
 export const signUp = async (data:userSchemaType) => {
   try{
     const response = await axios.post(`${baseUrl}signup`, data)
@@ -16,7 +18,8 @@ export const signUp = async (data:userSchemaType) => {
     return response.status
   }catch(err){
     // error toast
-    const errorMessage = err.response?.data?.message || "Sign up failed";
+    const error = err as AxiosError<ErrorResponse>;
+    const errorMessage = error.response?.data?.message || "Sign up failed";
     toast.error("Sign up error", {
       description:errorMessage,
       duration:3000
@@ -42,7 +45,9 @@ export const signIn = async (data:userSchemaType) => {
     
   }catch(err){
     // error toast
-    const errorMessage = err.response?.data?.message || "Sign up failed";
+
+    const error = err as AxiosError<ErrorResponse>;
+    const errorMessage = error.response?.data?.message || "Sign up failed";
     toast.error("Sign in error", {
       description:errorMessage,
       duration:3000

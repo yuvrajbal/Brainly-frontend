@@ -1,15 +1,12 @@
-import { UploadButton, UploadDropzone } from "@uploadthing/react";
+import { UploadButton } from "@uploadthing/react";
 import {
   CirclePlus,
-  Divide,
   File,
   FileIcon,
-  icons,
   Link,
   Merge,
   NotebookIcon,
   NotebookPenIcon,
-  Trophy,
 } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import type { FileRouter } from "uploadthing/types";

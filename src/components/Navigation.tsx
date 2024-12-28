@@ -1,6 +1,5 @@
 import { PlusIcon, Share2 } from "lucide-react";
 import Button from "./Button";
-import SearchBar from "./SearchBar";
 
 export default function NavigationBar() {
   return (
