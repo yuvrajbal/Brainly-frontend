@@ -23,47 +23,27 @@ export interface Memory {
   link?: string;
   imageUrl?: string;
 }
+interface AllNotesProps {
+  memories: Memory[];
+  handledelete: (id: string) => void;
+  modalState: boolean;
+  setModalState: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function AllNotes() {
-  const [memories, setMemories] = useState<Memory[]>([]);
-  const [filteredmemories, setFilteredMemories] = useState<Memory[]>([]);
+export default function AllNotes({
+  memories,
+  handledelete,
+  modalState,
+  setModalState,
+}: AllNotesProps) {
+  // const [memories, setMemories] = useState<Memory[]>([]);
+  const [filteredmemories, setFilteredMemories] = useState<Memory[]>(memories);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All Memories");
-  // fetch from db then pass
-  const fetchNotes = async () => {
-    try {
-      const response = await axios.get<{ content: Memory[] }>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
-        {
-          headers: {
-            authorization: `${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(response.data);
-      setMemories(response.data.content);
-      setFilteredMemories(response.data.content);
-    } catch (err) {
-      console.log("Error while fetching memories", err);
-    }
-  };
   useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  const handledelete = async (id: string) => {
-    try {
-      const response = await deleteContent(id);
-      const updatedMemories = memories.filter((memory) => memory._id !== id);
-      setMemories(updatedMemories);
-      setFilteredMemories(updatedMemories);
-      toast.success("Deleted Memory", {
-        duration: 2000,
-      });
-    } catch (err) {
-      console.error("error while deleting note", err);
-    }
-  };
+    setFilteredMemories(memories); // Update filtered memories when the prop changes
+    setActiveCategory("All Memories");
+  }, [memories]);
 
   const handleFilterClick = (category: string) => {
     setActiveCategory(category);
@@ -113,7 +93,7 @@ export default function AllNotes() {
       id="memories"
     >
       <Toaster richColors />
-      <nav className="flex flex-col ">
+      <nav className="flex flex-col px-6  ">
         <div
           className="bg-zinc-900 text-white py-2 flex justify-center gap-1 sm:hidden font-medium items-center rounded-md "
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -149,10 +129,12 @@ export default function AllNotes() {
           <FilterCategory title="Spaces" />
         </div>
       </nav>
-      <div className="my-8 pl-6  ">
+      <div className="my-10 pl-6  ">
         <MasonryLayout
           filteredmemories={filteredmemories}
           handledelete={handledelete}
+          modalState={modalState}
+          setModalState={setModalState}
         />
       </div>
 

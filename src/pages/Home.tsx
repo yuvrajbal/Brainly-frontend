@@ -1,13 +1,70 @@
 import AddContent from "@/components/AddContent";
-import AllNotes from "@/components/AllNotes";
+import AllNotes, { Memory } from "@/components/AllNotes";
 import Greeting from "@/components/Greeting";
+import Header from "@/components/Header";
 import ScrollBottom from "@/components/Scrollbottom";
 import SearchBar from "@/components/SearchBar";
+import UserModal from "@/components/UserModal";
+import { deleteContent } from "@/services/contentService";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [userModalOpen, setUserModalOpen] = useState<boolean>(false);
+  const [memories, setMemories] = useState<Memory[]>([]);
+
+  const handleCloseAddContent = () => {
+    setModalOpen(false);
+  };
+  const handleCloseUserModal = () => {
+    setUserModalOpen(false);
+  };
+  const fetchNotes = async () => {
+    try {
+      const response = await axios.get<{ content: Memory[] }>(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/content`,
+        {
+          headers: {
+            authorization: `${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response.data);
+      console.log("fetched all notes");
+      setMemories(response.data.content);
+    } catch (err) {
+      console.log("Error while fetching memories", err);
+    }
+  };
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const handledelete = async (id: string) => {
+    try {
+      const response = await deleteContent(id);
+      const updatedMemories = memories.filter((memory) => memory._id !== id);
+      setMemories(updatedMemories);
+
+      toast.success("Deleted Memory", {
+        duration: 2000,
+      });
+    } catch (err) {
+      console.error("error while deleting note", err);
+    }
+  };
+
   return (
     <main className="py-24">
-      <div className="pt-8 max-w-7xl mx-auto min-h-screen flex flex-col justify-between   ">
+      <div className="pt-2 max-w-7xl mx-auto min-h-screen flex flex-col justify-between   ">
+        <Header
+          setModalState={setModalOpen}
+          modalState={modalOpen}
+          userModalState={userModalOpen}
+          setUserModalState={setUserModalOpen}
+        />
         <div className="px-4 sm:px-8">
           <Greeting />
           <SearchBar />
@@ -17,8 +74,29 @@ export default function Home() {
         </div>
       </div>
 
-      <AllNotes />
-      {/* <AddContent /> */}
+      <AllNotes
+        memories={memories}
+        handledelete={handledelete}
+        modalState={modalOpen}
+        setModalState={setModalOpen}
+      />
+      {modalOpen && (
+        <div className=" fixed inset-0 z-50 flex items-center justify-center bg-black  bg-opacity-50">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-auto ">
+            <AddContent
+              onClose={handleCloseAddContent}
+              refreshNotes={fetchNotes}
+            />
+          </div>
+        </div>
+      )}
+      {userModalOpen && (
+        <div className=" fixed  inset-0 z-50 flex items-start justify-end bg-black  bg-opacity-50">
+          <div className=" relative  max-w-md max-h-[90vh]  overflow-auto  ">
+            <UserModal onClose={handleCloseUserModal} />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

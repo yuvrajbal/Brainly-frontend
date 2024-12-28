@@ -16,16 +16,20 @@ type MasonryProps = {
 const MasonryLayout = ({
   filteredmemories,
   handledelete,
+  modalState,
+  setModalState,
 }: {
   filteredmemories: MasonryProps[];
   handledelete: (id: string) => void;
+  modalState: boolean;
+  setModalState: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isAddContentOpen, setIsAddContentOpen] = useState<boolean>(false);
   const handleCloseAddContent = () => {
     setIsAddContentOpen(false);
   };
   const handleOpenAddContent = () => {
-    setIsAddContentOpen(true);
+    setModalState(!modalState);
   };
   return (
     <Box sx={{ width: "100%" }}>
@@ -79,13 +83,13 @@ const MasonryLayout = ({
           </Box>
         ))}
       </Masonry>
-      {isAddContentOpen && (
+      {/* {isAddContentOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative w-full max-w-md max-h-[90vh] overflow-auto">
             <AddContent onClose={handleCloseAddContent} />
           </div>
         </div>
-      )}
+      )} */}
     </Box>
   );
 };

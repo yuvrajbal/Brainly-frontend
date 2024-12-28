@@ -34,7 +34,7 @@ export default function LinkNote({
         <a
           href={url}
           target="_blank"
-          className="flex items-center gap-1 dark:text-gray-500 "
+          className="flex items-center gap-1 dark:text-gray-400  "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@ export default function LinkNote({
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            className="size-4 text-gray-700 dark:text-gray-400"
+            className="size-4 "
           >
             <path
               stroke-linecap="round"

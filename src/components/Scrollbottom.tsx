@@ -9,7 +9,7 @@ export default function ScrollBottom() {
   };
   return (
     <div
-      className="cursor-pointer self-center text-gray-500 flex gap-2 font-semibold hover:text-gray-200"
+      className="cursor-pointer self-center text-gray-400 hover:text-gray-800 dark:text-gray-500 flex gap-2 font-semibold dark:hover:text-gray-200"
       onClick={scrollToBottom}
     >
       <ChevronsDown />

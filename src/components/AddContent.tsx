@@ -19,7 +19,13 @@ import { toast } from "sonner";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
-export default function AddContent({ onClose }: { onClose: () => void }) {
+export default function AddContent({
+  onClose,
+  refreshNotes,
+}: {
+  onClose: () => void;
+  refreshNotes: () => void;
+}) {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [textNote, setTextNote] = useState("");
   const [fileUrl, setFileUrl] = useState("");
@@ -103,7 +109,7 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
               // }}
             />
             {fileName && (
-              <div className="mt-4 flex gap-2 items-center py-1 px-2 border rounded-md">
+              <div className="mt-4 flex gap-2 items-center py-1 px-2 border rounded-md dark:text-gray-300">
                 <FileIcon className="size-4" />
                 {fileName}
               </div>
@@ -187,11 +193,12 @@ export default function AddContent({ onClose }: { onClose: () => void }) {
               },
             }
           );
+
           onClose();
           setTextNote("");
           setFileUrl("");
           setWebsiteUrl("");
-
+          refreshNotes();
           return response.data;
         },
         {
