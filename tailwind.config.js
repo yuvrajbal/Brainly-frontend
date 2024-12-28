@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
-const { withUt } = require("uploadthing/tw");
-const svgToDataUri = require("mini-svg-data-uri");
+// import { colors } from "tailwindcss/colors";
+import { withUt } from "uploadthing/tw";
+import svgToDataUri from "mini-svg-data-uri";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+// const { withUt } = require("uploadthing/tw");
+// const svgToDataUri = require("mini-svg-data-uri");
+
+// const colors = require("tailwindcss/colors");
+// const {
+//   default: flattenColorPalette,
+// } = require("tailwindcss/lib/util/flattenColorPalette");
 
 export default withUt({
   darkMode: "class",
