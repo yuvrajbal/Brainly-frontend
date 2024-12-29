@@ -3,8 +3,9 @@ import axios from "axios";
 import { ChevronsDown, Loader2, SearchIcon } from "lucide-react";
 import { Memory } from "./AllNotes";
 import Note2 from "./NoteCard2";
-import ReactMarkdown from "react-markdown";
 import HeroCard from "./HeroCard";
+import SearchSkeleton from "./SearchSkeleton";
+import SearchResult from "./SearchResult";
 interface SearchResult {
   answer: string;
   message: string;
@@ -20,6 +21,7 @@ const VectorSearch: React.FC = () => {
   // const [searched, setSearched] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<Memory[]>([]);
   const [showRelated, setShowRelated] = useState<boolean>(true);
+  const [responseTime, setResponseTime] = useState<Date | null>(null);
 
   const handleSearch = async (
     e:
@@ -54,6 +56,7 @@ const VectorSearch: React.FC = () => {
       );
       setSearchContent(response.data.content);
       setSearchResult(response.data.answer);
+      setResponseTime(new Date());
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(
@@ -80,7 +83,12 @@ const VectorSearch: React.FC = () => {
       <div className="lg:w-2/3">
         <form
           onSubmit={handleSearch}
-          className="flex  rounded-3xl shadow-sm p-4 dark:bg-neutral-800 bg-white border border-neutral-900 dark:border-gray-600  "
+          className="flex group relative rounded-3xl shadow-md p-4 
+        bg-white dark:bg-neutral-900 
+        border border-neutral-200 dark:border-gray-700
+        focus-within:border-blue-500 dark:focus-within:border-blue-400
+        focus-within:ring-2 focus-within:ring-blue-500/20 dark:focus-within:ring-blue-400/20
+        transition-all duration-200 "
         >
           <textarea
             value={query}
@@ -92,31 +100,37 @@ const VectorSearch: React.FC = () => {
               }
             }}
             placeholder="Ask your memories..."
-            className="p-0 resize-none  flex-grow outline-none bg-transparent text-gray-900 dark:text-gray-100 font-semibold  dark:placeholder:text-gray-300 placeholder:text-gray-500"
-            rows={4}
+            className="p-0 resize-none flex-grow outline-none bg-transparent
+          text-gray-900 dark:text-gray-100 
+          font-semibold text-base
+          placeholder:text-gray-500 dark:placeholder:text-gray-400
+          transition-colors duration-200
+          focus:ring-0"
+            rows={2}
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="self-end rounded-full p-3 bg-neutral-800 dark:bg-black  dark:hover:bg-zinc-950 disabled:opacity-50 hover:bg-neutral-600 transition-colors"
+            className="self-center rounded-full p-3 bg-neutral-800 dark:bg-gray-200  dark:hover:bg-gray-400 disabled:opacity-50 hover:bg-neutral-600 transition-colors"
           >
             {isLoading ? (
-              <Loader2 className="size-4 stroke-white animate-spin" />
+              <Loader2 className="size-4 stroke-white dark:stroke-black animate-spin" />
             ) : (
-              <SearchIcon className="size-4 stroke-white dark:stroke-gray-300" />
+              <SearchIcon className="size-4 stroke-white dark:stroke-black " />
             )}
           </button>
         </form>
         <div className="my-6">
           {/* Loading State */}
           {isLoading && (
-            <div className="flex">
-              <div className="bg-gray-100 dark:bg-neutral-800 rounded-3xl p-3 max-w-[80%]">
-                <p className="text-gray-500 dark:text-gray-200">
-                  Searching through your memories...
-                </p>
-              </div>
-            </div>
+            // <div className="flex">
+            //   <div className="bg-gray-100 dark:bg-neutral-800 rounded-3xl p-3 max-w-[80%]">
+            //     <p className="text-gray-500 dark:text-gray-200">
+            //       Searching through your memories...
+            //     </p>
+            //   </div>
+            // </div>
+            <SearchSkeleton />
           )}
 
           {/* Error Message */}
@@ -130,25 +144,29 @@ const VectorSearch: React.FC = () => {
 
           <div className="flex flex-col md:flex-row md:gap-6">
             {/* Search Result */}
-            {searchResult && (
-              <div className="">
-                <div className="bg-gray-50 dark:bg-neutral-800 rounded-3xl p-4 dark:border dark:border-gray-600">
-                  <ReactMarkdown
-                    className="text-gray-900 dark:text-gray-200 font-normal text-lg "
-                    components={{
-                      a: ({ node, ...props }) => (
-                        <a
-                          {...props}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        />
-                      ),
-                    }}
-                  >
-                    {searchResult}
-                  </ReactMarkdown>
-                </div>
-              </div>
+            {searchResult && responseTime && (
+              // <div className="">
+              //   <div className="bg-gray-50 dark:bg-neutral-800 rounded-3xl p-4 dark:border dark:border-gray-600">
+              //     <ReactMarkdown
+              //       className="text-gray-900 dark:text-gray-200 font-normal text-lg "
+              //       components={{
+              //         a: ({ node, ...props }) => (
+              //           <a
+              //             {...props}
+              //             target="_blank"
+              //             rel="noopener noreferrer"
+              //           />
+              //         ),
+              //       }}
+              //     >
+              //       {searchResult}
+              //     </ReactMarkdown>
+              //   </div>
+              // </div>
+              <SearchResult
+                searchResult={searchResult}
+                timestamp={responseTime}
+              />
             )}
           </div>
         </div>

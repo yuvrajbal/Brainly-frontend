@@ -1,3 +1,4 @@
+import { getUsername } from "@/services/userService";
 import { Code, Github, LogOut, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -5,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 export default function UserModal({ onClose }: { onClose: () => void }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
+  const [username, setUsername] = useState<string>("");
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode ? JSON.parse(savedMode) : true;
   });
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.remove("light");
@@ -20,6 +22,13 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await getUsername();
+      setUsername(user);
+    };
+    getUser();
+  }, []);
   const getUserCredentials = (name: string) => {
     return name
       .split(" ")
@@ -68,10 +77,10 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
         </div>
         <div>
           <p className="font-semibold text-gray-800 dark:text-white">
-            Yuvraj Bal
+            {username}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-300">
-            yuvrajbal@openai.com
+            {`${username}@openai.com`}
           </p>
         </div>
       </div>

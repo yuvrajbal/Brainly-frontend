@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
+interface HeaderProps {
+  modalState: boolean;
+  setModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  userModalState: boolean;
+  setUserModalState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export default function Header({
   modalState,
   setModalState,
   userModalState,
   setUserModalState,
-}: {
-  modalState: boolean;
-  setModalState: React.Dispatch<React.SetStateAction<boolean>>;
-  userModalState: boolean;
-  setUserModalState: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}: HeaderProps) {
   const userIconRef = useRef<HTMLDivElement>(null);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -91,7 +93,7 @@ export default function Header({
 
           <div className="flex gap-4 items-center">
             <button
-              className="rounded-md p-2 flex items-center gap-1 bg-gray-100 text-gray-900  hover:text-gray-700 dark:bg-zinc-900 dark:text-gray-300 dark:hover:text-gray-400 font-medium "
+              className="rounded-md py-2 px-3 flex items-center gap-1 bg-gray-100 text-gray-900  hover:text-gray-700 dark:bg-zinc-900 dark:text-gray-300 dark:hover:text-gray-400 font-medium "
               onClick={handleOpenAddContent}
             >
               <PlusIcon className="w-5 h-5" />

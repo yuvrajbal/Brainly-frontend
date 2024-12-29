@@ -50,7 +50,7 @@ export default function Home() {
 
       toast.success("Deleted Memory", {
         duration: 2000,
-    });
+      });
     } catch (err) {
       console.error("error while deleting note", err);
     }

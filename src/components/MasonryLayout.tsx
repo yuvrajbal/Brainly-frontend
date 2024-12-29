@@ -56,7 +56,7 @@ const MasonryLayout = ({
                 imageUrl={memory.imageUrl}
               />
               <div
-                className={`rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 dark:bg-gray-400 mb-2 mr-2`}
+                className={`rounded-full absolute bottom-0 right-0 size-6 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 bg-gray-300 dark:bg-gray-900 mb-2 mr-2`}
                 onClick={() => handledelete(memory._id)}
               >
                 <svg
@@ -65,7 +65,7 @@ const MasonryLayout = ({
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="dark:text-gray-900"
+                  className="dark:text-gray-300 "
                 >
                   <path
                     strokeLinecap="round"
