@@ -65,6 +65,15 @@ export default function Home() {
           userModalState={userModalOpen}
           setUserModalState={setUserModalOpen}
         />
+        {userModalOpen && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-end">
+            <div className="relative w-full max-w-[2000px] mx-auto">
+              <div className="absolute top-4 right-4 max-w-md max-h-[90vh] overflow-auto">
+                <UserModal onClose={handleCloseUserModal} />
+              </div>
+            </div>
+          </div>
+        )}
         <div className="px-4 sm:px-8">
           <Greeting />
           <SearchBar />
@@ -87,13 +96,6 @@ export default function Home() {
               onClose={handleCloseAddContent}
               refreshNotes={fetchNotes}
             />
-          </div>
-        </div>
-      )}
-      {userModalOpen && (
-        <div className=" fixed  inset-0 z-50 flex items-start justify-end bg-black  bg-opacity-50">
-          <div className=" relative  max-w-md max-h-[90vh]  overflow-auto  ">
-            <UserModal onClose={handleCloseUserModal} />
           </div>
         </div>
       )}
