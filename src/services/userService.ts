@@ -73,3 +73,19 @@ export const getUsername = async () => {
   }
 
 }
+export const getSubscriptionStatus = async () => {
+  const token = localStorage.getItem("token")
+  try{
+    const response = await axios.get(`${baseUrl}get-status`,{
+      headers:{
+        authorization:token
+      }
+    } )
+    if(response.status === 200){
+      return response.data.status
+    }
+  }catch(err){
+    console.log("error while fetching status")
+  }
+
+}

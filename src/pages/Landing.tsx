@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Sun,
   Moon,
@@ -8,8 +8,6 @@ import {
   Twitter,
   Brain,
   Zap,
-  Database,
-  Lock,
 } from "lucide-react";
 
 const Header = () => {

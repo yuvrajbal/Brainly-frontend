@@ -2,16 +2,19 @@ import Button from "@/components/Button";
 import UserSignForm, { userSchemaType } from "@/components/SigninUp";
 import { signIn } from "@/services/userService";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem("token");
+  const redirectTo =
+    new URLSearchParams(location.search).get("redirect") || "/home";
   useEffect(() => {
     if (token) {
-      navigate("/home");
+      navigate(redirectTo);
     }
-  }, []);
+  }, [token, redirectTo, navigate]);
 
   const handleSignIn = async (data: userSchemaType) => {
     try {
@@ -19,7 +22,7 @@ export default function Signin() {
 
       if (response === 200) {
         setTimeout(() => {
-          navigate("/home");
+          navigate(redirectTo);
         }, 1000);
       }
     } catch (error) {

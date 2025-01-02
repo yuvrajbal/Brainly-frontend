@@ -2,6 +2,7 @@ import { ChevronDown, PlusIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+import { getSubscriptionStatus } from "@/services/userService";
 
 interface HeaderProps {
   modalState: boolean;
@@ -19,6 +20,7 @@ export default function Header({
   const userIconRef = useRef<HTMLDivElement>(null);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const [isPro, setIsPro] = useState(true);
 
   const getUserCredentials = (name: string) => {
     return name
@@ -59,6 +61,17 @@ export default function Header({
       setIsLoggedIn(true);
     }
   });
+  useEffect(() => {
+    const getStatus = async () => {
+      const status = await getSubscriptionStatus();
+      setIsPro(status);
+    };
+    getStatus();
+  }, []);
+  const upgradetoPro = () => {
+    navigate("/upgrade");
+  };
+
   return (
     <div className=" fixed top-0 left-0 right-0 z-50 bg-white dark:bg-black/85 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-[2000px] mx-auto">
@@ -92,13 +105,28 @@ export default function Header({
           </button>
 
           <div className="flex gap-4 items-center">
-            <button
+            {isPro ? null : (
+              <Button
+                variant="pro"
+                text="Upgrade Pro"
+                onClick={upgradetoPro}
+                className=""
+              />
+            )}
+
+            {/* <button
               className="rounded-md py-2 px-3 flex items-center gap-1 bg-gray-100 text-gray-900  hover:text-gray-700 dark:bg-zinc-900 dark:text-gray-300 dark:hover:text-gray-400 font-medium "
               onClick={handleOpenAddContent}
             >
               <PlusIcon className="w-5 h-5" />
               <div>Add Memory</div>
-            </button>
+            </button> */}
+            <Button
+              variant="primary"
+              text="Add Memory"
+              icon={PlusIcon}
+              onClick={handleOpenAddContent}
+            />
             {loggedIn ? (
               <div className="relative">
                 <div

@@ -5,8 +5,9 @@ import Layout from "./Layout";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Landing from "./pages/Landing";
-import SubscriptionWrapper from "./components/SubscriptionForm";
 import SubscriptionSuccess from "./pages/SubscriptionSuccess";
+import SubscriptionFail from "./pages/SubscriptionFail";
+import PricingSection from "./pages/PricingSection";
 function App() {
   return (
     <main className="">
@@ -19,8 +20,10 @@ function App() {
               path="subscription/success"
               element={<SubscriptionSuccess />}
             />
+            <Route path="subscription/fail" element={<SubscriptionFail />} />
+            <Route path="upgrade" element={<PricingSection />} />
           </Route>
-          <Route path="subscribe" element={<SubscriptionWrapper />} />
+          {/* <Route path="subscribe" element={<SubscriptionWrapper />} /> */}
 
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
