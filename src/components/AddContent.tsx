@@ -13,6 +13,8 @@ import type { FileRouter } from "uploadthing/types";
 import axios from "axios";
 import Button from "./Button";
 import { toast } from "sonner";
+import { getDocumentUploadStatus } from "@/services/userService";
+import { dividerClasses } from "@mui/material";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
@@ -28,6 +30,61 @@ export default function AddContent({
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [type, setType] = useState("link");
+  const [canUpload, setCanUpload] = useState(true);
+  const items = [
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          className="size-4 stroke-blue-500"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+          />
+        </svg>
+      ),
+      label: "Website",
+      value: "link",
+      bgColor: "bg-blue-50 dark:bg-blue-950",
+      borderColor: "border-blue-200 dark:border-blue-900",
+    },
+    {
+      icon: <NotebookPenIcon className="size-4 stroke-green-500" />,
+      label: "Note",
+      value: "note",
+      bgColor: "bg-green-50 dark:bg-emerald-950",
+      borderColor: "border-green-200 dark:border-emerald-900",
+    },
+    {
+      icon: <File className="size-4 stroke-yellow-500" />,
+      label: "Document",
+      value: "document",
+      bgColor: "bg-yellow-50 dark:bg-yellow-950",
+      borderColor: "border-yellow-200 dark:border-yellow-900",
+    },
+    {
+      icon: <Merge className="size-4 stroke-purple-500" />,
+      label: "Integrations",
+      value: "integration",
+      bgColor: "bg-purple-50 dark:bg-purple-950",
+      borderColor: "border-purple-200 dark:border-purple-900",
+    },
+  ];
+  const [selectedIndex, setSelectedindex] = useState(0);
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const uploadStatus = await getDocumentUploadStatus();
+      setCanUpload(uploadStatus);
+    };
+    getStatus();
+  }, []);
   const renderDynamicInput = () => {
     switch (selectedIndex) {
       case 0:
@@ -77,34 +134,42 @@ export default function AddContent({
       case 2:
         return (
           <div className="mt-4 rounded-md border border-yellow-100 dark:border-stone-700 p-4 shadow-md dark:bg-stone-900">
-            <UploadButton<OurFileRouter, "pdfUploader">
-              url={`${import.meta.env.VITE_BACKEND_URL}/api/uploadthing`}
-              endpoint="pdfUploader"
-              className="ut-allowed-content:mt-2"
-              onClientUploadComplete={(res) => {
-                setFileUrl(res[0].url);
-                setFileName(res[0].name);
+            {canUpload ? (
+              <UploadButton<OurFileRouter, "pdfUploader">
+                url={`${import.meta.env.VITE_BACKEND_URL}/api/uploadthing`}
+                endpoint="pdfUploader"
+                className="ut-allowed-content:mt-2"
+                onClientUploadComplete={(res) => {
+                  setFileUrl(res[0].url);
+                  setFileName(res[0].name);
 
-                // alert("upload completed");
-              }}
-              onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
-              }}
-              // onBeforeUploadBegin={(files) => {
-              //   // uploading toast
-              //   console.log("started uploading", file);
-              // }}
-              onUploadBegin={(name) => {
-                // Do something once upload begins
-                console.log("Uploading: ", name);
-              }}
-              // onDrop={(acceptedFiles) => {
-              //   // Do something with the accepted files
+                  // alert("upload completed");
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+                // onBeforeUploadBegin={(files) => {
+                //   // uploading toast
+                //   console.log("started uploading", file);
+                // }}
+                onUploadBegin={(name) => {
+                  // Do something once upload begins
 
-              //   console.log("Accepted files: ", acceptedFiles);
-              //   // alert("file dropped");
-              // }}
-            />
+                  console.log("Uploading: ", name);
+                }}
+                // onDrop={(acceptedFiles) => {
+                //   // Do something with the accepted files
+
+                //   console.log("Accepted files: ", acceptedFiles);
+                //   // alert("file dropped");
+                // }}
+              />
+            ) : (
+              <div className="dark:text-gray-400 text-gray-600">
+                Upgrade to Pro to upload unlimited documents
+              </div>
+            )}
+
             {fileName && (
               <div className="mt-4 flex gap-2 items-center py-1 px-2 border rounded-md dark:text-gray-300">
                 <FileIcon className="size-4" />
@@ -123,52 +188,20 @@ export default function AddContent({
         );
     }
   };
-  const items = [
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          className="size-4 stroke-blue-500"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-          />
-        </svg>
-      ),
-      label: "Website",
-      value: "link",
-      bgColor: "bg-blue-50 dark:bg-blue-950",
-      borderColor: "border-blue-200 dark:border-blue-900",
-    },
-    {
-      icon: <NotebookPenIcon className="size-4 stroke-green-500" />,
-      label: "Note",
-      value: "note",
-      bgColor: "bg-green-50 dark:bg-emerald-950",
-      borderColor: "border-green-200 dark:border-emerald-900",
-    },
-    {
-      icon: <File className="size-4 stroke-yellow-500" />,
-      label: "Document",
-      value: "document",
-      bgColor: "bg-yellow-50 dark:bg-yellow-950",
-      borderColor: "border-yellow-200 dark:border-yellow-900",
-    },
-    {
-      icon: <Merge className="size-4 stroke-purple-500" />,
-      label: "Integrations",
-      value: "integration",
-      bgColor: "bg-purple-50 dark:bg-purple-950",
-      borderColor: "border-purple-200 dark:border-purple-900",
-    },
-  ];
-  const [selectedIndex, setSelectedindex] = useState(0);
+  const isButtonDisabled = () => {
+    switch (type) {
+      case "link":
+        return !websiteUrl.trim();
+      case "note":
+        return !textNote.trim();
+      case "document":
+        return !fileUrl.trim();
+      case "integration":
+        return true;
+      default:
+        return true;
+    }
+  };
 
   const handleAddMemory = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -190,6 +223,7 @@ export default function AddContent({
               },
             }
           );
+          // setResponseCode(response.status);
 
           onClose();
           setTextNote("");
@@ -201,7 +235,15 @@ export default function AddContent({
         {
           loading: "Creating memory...",
           success: "Memory created successfully",
-          error: "Failed to create memory",
+          error: (err) => {
+            // Dynamically include the error response code if available
+            const statusCode = err.response?.status || "unknown";
+            if (statusCode === 429) {
+              return `Limit reached, Upgrade to Pro`;
+            } else {
+              return `Failed to create memory (status: ${statusCode})`;
+            }
+          },
           duration: 3000,
         }
       );
@@ -269,7 +311,12 @@ export default function AddContent({
             type="button"
             onClick={onClose}
           />
-          <Button text="Add Memory" variant="primary" type="submit" />
+          <Button
+            text="Add Memory"
+            variant="primary"
+            type="submit"
+            disabled={isButtonDisabled()}
+          />
         </div>
       </form>
     </main>

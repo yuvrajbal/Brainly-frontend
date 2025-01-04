@@ -89,3 +89,21 @@ export const getSubscriptionStatus = async () => {
   }
 
 }
+
+export const getDocumentUploadStatus = async () => {
+  const token = localStorage.getItem("token")
+
+  try{
+    const response = await axios.get(`${baseUrl}get-documentupload-status` , {
+      headers:{
+        authorization:token
+      }
+    })
+    if(response.status === 200){
+      return response.data.canUpload
+    }
+  }catch(err){
+    console.log("Error while fetching document upload status")
+
+  }
+}

@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
-
+import { toast, Toaster } from "sonner";
 type PricingCardProps = {
   plan: String;
   price: String;
@@ -66,7 +66,7 @@ const PricingCard = ({
               : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200"
           }`}
         >
-          Get Started
+          Subscribe
         </button>
       </div>
     </div>
@@ -75,26 +75,30 @@ const PricingCard = ({
 
 const PricingSection = () => {
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const status = queryParams.get("status");
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/signin?redirect=/upgrade");
       return;
     }
-  }, []);
+    if (status === "cancelled") {
+      toast.error("Payment was cancelled. Please try again.");
+    }
+  }, [status, navigate]);
   const commonFeatures = [
     "Unlimited AI Chat Responses",
-    "Advanced Question Analysis",
     "Step-by-Step Solutions",
-    "Multiple Subject Support",
     "24/7 AI Assistance",
-    "Personalized Learning Path",
+    "Unlimited Document Uploads",
   ];
 
   const annualFeatures = [
     ...commonFeatures,
     "Priority Response Time",
-    "Advanced Study Analytics",
+    "API access",
     "Save $21 Annually",
   ];
 
@@ -138,6 +142,7 @@ const PricingSection = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-6">
+      <Toaster richColors />
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-4">Choose Your Plan</h2>
         <p className="text-gray-600">
