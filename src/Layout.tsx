@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import { Toaster } from "sonner";
 export default function Layout() {
   // const navigate = useNavigate();
   // useEffect(() => {

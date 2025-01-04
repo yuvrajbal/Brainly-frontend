@@ -14,7 +14,6 @@ import axios from "axios";
 import Button from "./Button";
 import { toast } from "sonner";
 import { getDocumentUploadStatus } from "@/services/userService";
-import { dividerClasses } from "@mui/material";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
