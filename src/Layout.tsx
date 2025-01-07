@@ -1,16 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 export default function Layout() {
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     // setIsLoggedIn(true);
-  //     // navigate("/home");
-  //   } else {
-  //     navigate("/");
-  //   }
-  // }, []);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // setIsLoggedIn(true);
+      navigate("/home");
+    } else {
+      navigate("/welcome");
+    }
+  }, []);
 
   useEffect(() => {
     const savedMode = localStorage.getItem("darkMode");

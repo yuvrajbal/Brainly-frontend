@@ -39,6 +39,7 @@
     "react-swipeable": "^7.0.2",
     "react-tweet": "^3.2.1",
     "react-youtube": "^10.1.0",
+    "shadcn-ui": "^0.9.4",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwind-scrollbar": "^3.1.0",
