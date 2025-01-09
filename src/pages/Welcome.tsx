@@ -1,6 +1,6 @@
+import HeaderWelcome from "@/components/HeaderWelcome";
 import {
   BookmarkCheck,
-  Brain,
   Check,
   ChevronDown,
   Github,
@@ -15,7 +15,7 @@ import {
   Zap,
 } from "lucide-react";
 import React, { ElementType, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 type CardProps = {
   title: string;
   icon: ElementType;
@@ -52,7 +52,7 @@ type FaqProps = {
 export default function WelcomePage() {
   const navigate = useNavigate();
   const navigateLogin = () => {
-    navigate("/signin");
+    navigate("/auth/signin");
   };
   const navigateUpgrade = () => {
     navigate("/upgrade");
@@ -76,6 +76,17 @@ export default function WelcomePage() {
   const handleTwitter = () => {
     window.open("https://x.com/YuvrajBal4");
   };
+  const location = useLocation();
+  console.log(location);
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        // Scroll to the element smoothly
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
 
   const Features = () => {
     const Card: React.FC<CardProps> = ({ icon: Icon, title, description }) => {
@@ -466,7 +477,7 @@ export default function WelcomePage() {
     const FaqButton: React.FC<FaqProps> = ({ question, answer }) => {
       const [isPressed, SetIsPressed] = useState<boolean>(false);
       return (
-        <div className="bg-neutral-800 rounded-lg px-6 py-4">
+        <div className="bg-neutral-800 rounded-lg px-6 py-4" id="faq">
           <button
             onClick={() => SetIsPressed(!isPressed)}
             className="text-white text-lg font-semibold flex justify-between items-center  w-full  "
@@ -650,34 +661,34 @@ export default function WelcomePage() {
             <div>
               <h4 className="text-white font-semibold mb-4">Resources</h4>
               <div className="flex flex-col gap-2">
-                <a
-                  href="/documentation"
+                <Link
+                  to="/policies/documentation"
                   className="text-gray-400 hover:text-indigo-500 transition-colors"
                 >
                   {" "}
                   Documentation
-                </a>
-                <a
-                  href="/api-reference"
+                </Link>
+                <Link
+                  to="/policies/api-reference"
                   className="text-gray-400 hover:text-indigo-500 transition-colors"
                 >
                   {" "}
                   API Reference
-                </a>
-                <a
-                  href="/blog"
+                </Link>
+                <Link
+                  to="/policies/blog"
                   className="text-gray-400 hover:text-indigo-500 transition-colors"
                 >
                   {" "}
                   Blog
-                </a>
-                <a
-                  href="/community"
+                </Link>
+                <Link
+                  to="/policies/community"
                   className="text-gray-400 hover:text-indigo-500 transition-colors"
                 >
                   {" "}
                   Community
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -688,20 +699,20 @@ export default function WelcomePage() {
               </div>
               <div className="flex gap-6">
                 <a
-                  href="/privacy-policy"
+                  href="/policies/privacy-policy"
                   className="text-gray-400 hover:text-indigo-500 text-sm transition-colors"
                 >
                   Privacy Policy
                 </a>
                 <a
-                  href="/terms-of-service"
+                  href="/policies/terms-of-service"
                   className="text-gray-400 hover:text-indigo-500 text-sm transition-colors"
                 >
                   Terms of Service
                 </a>
 
                 <a
-                  href="/cookie-policy"
+                  href="/policies/cookie-policy"
                   className="text-gray-400 hover:text-indigo-500 text-sm transition-colors"
                 >
                   Cookie Policy
@@ -715,37 +726,7 @@ export default function WelcomePage() {
   };
   return (
     <main className="bg-neutral-900  ">
-      <div className="sticky top-0 z-50 bg-neutral-900 shadow-md transition-shadow duration-300">
-        <div className="  flex justify-between items-center  py-4 max-w-7xl mx-auto px-4 md:px-8">
-          <a
-            className="text-white text-2xl font-bold flex items-center gap-3"
-            href="#home"
-          >
-            <Brain className="stroke-indigo-500 size-7 " />
-            Brainly AI
-          </a>
-          <div className="text-gray-300 text-base flex gap-12 items-center  ">
-            <a href="#home" className="hover:text-gray-400">
-              Home
-            </a>
-            <a href="#features" className="hover:text-gray-400">
-              Features
-            </a>
-            <a href="#pricing" className="hover:text-gray-400">
-              Pricing
-            </a>
-            <a href="#about" className="hover:text-gray-400">
-              About
-            </a>
-            <button
-              className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 px-4 py-2 rounded-md"
-              onClick={navigateLogin}
-            >
-              Get Started
-            </button>
-          </div>
-        </div>
-      </div>
+      <HeaderWelcome />
 
       {/* home */}
       <div

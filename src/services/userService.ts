@@ -73,6 +73,22 @@ export const getUsername = async () => {
   }
 
 }
+
+export const getUserDetails = async () => {
+  const token = localStorage.getItem("token")
+  try{
+    const response = await axios.get(`${baseUrl}getuser`, {
+      headers:{
+        authorization:token
+      }
+    })
+    if(response.status === 200){
+      return response.data
+    }
+  }catch(err){
+    console.log("error fetching user")
+  }
+}
 export const getSubscriptionStatus = async () => {
   const token = localStorage.getItem("token")
   try{
@@ -105,5 +121,40 @@ export const getDocumentUploadStatus = async () => {
   }catch(err){
     console.log("Error while fetching document upload status")
 
+  }
+}
+
+export const resetPassword = async (oldPassword:string,newPassword:string) => {
+  const token = localStorage.getItem("token");
+  try{
+    const response = await axios.post(`${baseUrl}resetpassword`, {
+      oldPassword:oldPassword,
+      newPassword:newPassword
+      } , {headers:{
+      authorization:token
+
+    }})
+    if(response.status === 200){
+      return true
+    }
+  }catch(err){
+    console.log("error updating password")
+    return false
+  }
+}
+
+export const getStripeSubscription = async (subscriptionId:string) => {
+  try{
+    const response =await axios.get(`${baseUrl}subscription/${subscriptionId}` , {
+      headers:{
+        authorization:localStorage.getItem("token")
+      }
+    })
+    if(response.status===200){
+      return response.data
+    }
+  }catch(err){
+    console.log("error fetching subscription")
+    return false
   }
 }

@@ -1,3 +1,7 @@
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "sonner";
+
 interface Feature {
   title: string;
   description: string;
@@ -23,6 +27,38 @@ const ComingSoonTemplate = ({
   signupPlaceholder,
   backgroundClass,
 }: ComingSoonTemplateProps) => {
+  const [email, setEmail] = useState("");
+  const handleWaitList = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/waitlist`,
+        {
+          item: title,
+          email: email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setEmail("");
+      if (response.status === 200) {
+        toast.success("Added to waitlist");
+      }
+    } catch (err) {
+      setEmail("");
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 411) {
+          toast.error("Already added to waitlist");
+        } else {
+          toast.error("Failed to add to waitlist");
+        }
+      } else {
+        toast.error("Error adding to waitlist");
+      }
+    }
+  };
   return (
     <div className={`min-h-screen ${backgroundClass} py-16 px-4`}>
       <div className="max-w-4xl mx-auto">
@@ -54,8 +90,13 @@ const ComingSoonTemplate = ({
                   type="email"
                   placeholder={signupPlaceholder}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  onClick={handleWaitList}
+                >
                   Notify Me
                 </button>
               </div>

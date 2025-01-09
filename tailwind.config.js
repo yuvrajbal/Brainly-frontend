@@ -61,6 +61,7 @@ export default withUt({
         { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
       );
     },
+    addVariablesForColors,
   ],
   variants: {
     extend: {
@@ -68,3 +69,14 @@ export default withUt({
     },
   },
 });
+
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}

@@ -38,12 +38,10 @@ export default function UserSignForm({ type, submit }: formProps) {
   } = useForm<userSchemaType>({ resolver: zodResolver(userSchema) });
 
   return (
-    <main className="max-w-xl w-full dark:bg-transparent border border-neutral-200 dark:border-neutral-700 shadow-lg py-12 px-6 rounded-xl ">
+    <main className="max-w-xl w-full dark:bg-neutral-950 bg-white dark:bg-opacity-90 bg-opacity-80 border border-neutral-200 dark:border-neutral-700 shadow-lg py-12 px-6 rounded-xl ">
       <Toaster richColors />
-      <h1 className="text-xl font-semibold text-center dark:text-gray-300">
-        {type === "signin"
-          ? "Sign In to your account"
-          : "Sign Up to create account"}
+      <h1 className="text-3xl font-semibold text-center dark:text-gray-300">
+        {type === "signin" ? "Log in" : "Get started with BrainlyAI"}
       </h1>
       <form
         onSubmit={handleSubmit(submit)}
@@ -93,7 +91,7 @@ export default function UserSignForm({ type, submit }: formProps) {
         </div>
         <div className="w-full mt-4 ">
           <Button
-            text={type === "signin" ? "Sign In" : "Sign Up"}
+            text={type === "signin" ? "Log in" : "Sign Up"}
             variant="primary"
             type="submit"
             className="w-1/2 mx-auto "

@@ -49,7 +49,10 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
   };
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/signin");
+    navigate("/auth/signin");
+  };
+  const navigateProfile = () => {
+    navigate("/profile");
   };
 
   useEffect(() => {
@@ -86,10 +89,8 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
       </div>
       <div className="py-1">
         <button
-          className="w-full flex items-center px-4 py-2 text-gray-400 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600"
-          onClick={() => {
-            /* Handle profile */
-          }}
+          className="w-full flex items-center px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+          onClick={navigateProfile}
         >
           <User className="w-4 h-4 mr-3" /> Profile
         </button>

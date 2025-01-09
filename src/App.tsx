@@ -17,6 +17,9 @@ import {
   Community,
   Documentation,
 } from "./pages/ComingSoon";
+import PolicyLayout from "./PolicyLayout";
+import LoginLayout from "./pages/LoginLayout";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <main className="">
@@ -28,20 +31,26 @@ function App() {
               path="subscription/success"
               element={<SubscriptionSuccess />}
             />
+            <Route path="upgrade" element={<PricingSection />} />
             <Route path="subscription/fail" element={<SubscriptionFail />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="/policies" element={<PolicyLayout />}>
+              <Route path="privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="terms-of-service" element={<TermsOfService />} />
+              <Route path="cookie-policy" element={<CookiePolicy />} />
+              <Route path="documentation" element={<Documentation />} />
+              <Route path="api-reference" element={<APIReference />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="community" element={<Community />} />
+            </Route>
           </Route>
-          <Route path="upgrade" element={<PricingSection />} />
+
           <Route path="welcome" element={<WelcomePage />} />
-          {/* <Route path="subscribe" element={<SubscriptionWrapper />} /> */}
-          <Route path="privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="terms-of-service" element={<TermsOfService />} />
-          <Route path="cookie-policy" element={<CookiePolicy />} />
-          <Route path="/documentation" element={<Documentation />} />
-          <Route path="/api-reference" element={<APIReference />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<Signup />} />
+
+          <Route path="auth" element={<LoginLayout />}>
+            <Route path="signin" element={<Signin />} />
+            <Route path="signup" element={<Signup />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </main>

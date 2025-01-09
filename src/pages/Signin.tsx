@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import UserSignForm, { userSchemaType } from "@/components/SigninUp";
 import { signIn } from "@/services/userService";
 import { useEffect } from "react";
@@ -30,12 +29,22 @@ export default function Signin() {
       console.error("Signin navigation error", error);
     }
   };
-  const navigateLanding = () => {
-    navigate("/");
-  };
+
   return (
-    <>
-      <div className=" fixed top-0 left-0 right-0 z-50 bg-white dark:bg-black/85 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+    <main className=" mx-auto max-w-5xl  flex flex-col justify-center items-center min-h-screen  ">
+      <UserSignForm type="signin" submit={handleSignIn} />
+      <h2 className="dark:text-white text-base font-normal text-gray-900 mt-8">
+        Don't have an account?{" "}
+        <a href="/auth/signup" className="underline pl-1 font-semibold">
+          Get started
+        </a>
+      </h2>
+    </main>
+  );
+}
+
+{
+  /* <div className=" fixed top-0 left-0 right-0 z-50 bg-white dark:bg-black/85 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-[2000px] mx-auto">
           <header className=" flex justify-between items-center  py-4 px-2 sm:px-6  ">
             <button
@@ -76,10 +85,5 @@ export default function Signin() {
             </div>
           </header>
         </div>
-      </div>
-      <main className="mx-auto max-w-5xl  flex justify-center items-center min-h-screen ">
-        <UserSignForm type="signin" submit={handleSignIn} />
-      </main>
-    </>
-  );
+      </div> */
 }

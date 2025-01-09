@@ -8,13 +8,14 @@ import UserModal from "@/components/UserModal";
 import { deleteContent } from "@/services/contentService";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [userModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [memories, setMemories] = useState<Memory[]>([]);
-
+  const navigate = useNavigate();
   const handleCloseAddContent = () => {
     setModalOpen(false);
   };
@@ -55,9 +56,17 @@ export default function Home() {
       console.error("error while deleting note", err);
     }
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/auth/signin");
+    }
+  });
 
   return (
     <main className="py-24">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_85%,black)]"></div>
+
       <div className="pt-2 max-w-7xl mx-auto min-h-screen flex flex-col justify-between   ">
         <Header
           setModalState={setModalOpen}
