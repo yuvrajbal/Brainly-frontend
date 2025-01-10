@@ -12,16 +12,17 @@ type MasonryProps = {
   link?: string;
   imageUrl?: string;
 };
-const MasonryLayout = ({
-  filteredmemories,
-  handledelete,
-  modalState,
-  setModalState,
-}: {
+interface MasonryLayoutProps {
   filteredmemories: MasonryProps[];
   handledelete: (id: string) => void;
   modalState: boolean;
   setModalState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const MasonryLayout: React.FC<MasonryLayoutProps> = ({
+  filteredmemories,
+  handledelete,
+  modalState,
+  setModalState,
 }) => {
   const handleOpenAddContent = () => {
     setModalState(!modalState);

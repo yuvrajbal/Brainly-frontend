@@ -1,5 +1,5 @@
-import { getUsername } from "@/services/userService";
-import { Code, Github, LogOut, Moon, Sun, User } from "lucide-react";
+import { getUserDetails } from "@/services/userService";
+import { Code, Github, Loader, LogOut, Moon, Sun, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,8 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [isloading, setIsLoading] = useState<boolean>(true);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode ? JSON.parse(savedMode) : true;
@@ -22,12 +24,22 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
     }
   }, [darkMode]);
 
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const user = await getUsername();
+  //     setUsername(user);
+  //   };
+  //   getUser();
+  // }, []);
+
   useEffect(() => {
-    const getUser = async () => {
-      const user = await getUsername();
-      setUsername(user);
+    const getUserData = async () => {
+      const userDetails = await getUserDetails();
+      setUsername(userDetails.username);
+      setEmail(userDetails.email);
+      setIsLoading(false);
     };
-    getUser();
+    getUserData();
   }, []);
   const getUserCredentials = (name: string) => {
     return name
@@ -75,17 +87,27 @@ export default function UserModal({ onClose }: { onClose: () => void }) {
       className="  mt-16 w-64 bg-white dark:bg-zinc-800 border dark:border-gray-600 rounded-lg shadow-lg "
     >
       <div className="p-4 border-b dark:border-gray-600 flex  items-center">
-        <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mr-3">
-          {getUserCredentials("YuvrajBal")}
+        <div className="w-12 h-12 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-3">
+          {isloading ? (
+            <Loader className="animate-spin" />
+          ) : (
+            getUserCredentials(username)
+          )}
         </div>
-        <div>
-          <p className="font-semibold text-gray-800 dark:text-white">
-            {username}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-300">
-            {`${username}@openai.com`}
-          </p>
-        </div>
+        {isloading ? (
+          <div className="mt-2">
+            <div className="dark:bg-neutral-700 bg-gray-100 animate-pulse h-3 w-32 rounded mb-2"></div>
+            <div className="dark:bg-neutral-700 bg-gray-100 animate-pulse h-3 w-32 rounded mb-2"></div>
+          </div>
+        ) : (
+          <div>
+            <p className="font-semibold text-gray-700 dark:text-white">
+              {/* {isloading ? <Loader className="animate-spin" /> : username} */}
+              {username}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">{email}</p>
+          </div>
+        )}
       </div>
       <div className="py-1">
         <button

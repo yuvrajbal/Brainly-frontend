@@ -277,7 +277,7 @@ export default function AddContent({
 
   return (
     <main
-      className="px-2 pt-6 pb-2 border rounded-lg bg-white dark:bg-neutral-800 dark:border-none"
+      className="px-2 pt-6 pb-2 border rounded-lg bg-gray-50 dark:bg-neutral-800 dark:border-none"
       ref={addContentRef}
     >
       <h1 className="flex gap-3 items-center font-semibold mb-6 dark:text-gray-200">

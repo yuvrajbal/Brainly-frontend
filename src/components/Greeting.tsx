@@ -11,10 +11,9 @@ export default function Greeting() {
     getUser();
   }, []);
   return (
-    <div className="mb-8">
-      <h1 className="dark:text-gray-500 text-gray-600 font-semibold text-4xl">
-        Good Evening{" "}
-        <span className="dark:text-gray-300 text-gray-800">{user}</span>
+    <div className="bg-gradient-to-b mt-20 md:mt-0 mb-8 dark:from-neutral-100 from-neutral-800 dark:via-neutral-50 via-neutral-600 dark:to-neutral-800 to-neutral-300  bg-clip-text">
+      <h1 className=" font-normal md:text-6xl tracking-[-0.03em] text-4xl text-transparent">
+        Good Evening <span className="">{user}</span>
       </h1>
     </div>
   );

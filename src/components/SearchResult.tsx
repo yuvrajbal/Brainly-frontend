@@ -76,9 +76,8 @@ const SearchResult: React.FC<SearchResultProps> = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="w-full mx-auto">
       <div className="bg-white dark:bg-neutral-950 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-        {/* Metadata header with response timestamp */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -91,7 +90,6 @@ const SearchResult: React.FC<SearchResultProps> = ({
           </div>
         </div>
 
-        {/* Main content */}
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <ReactMarkdown
             className="text-gray-800 dark:text-gray-200"
@@ -100,31 +98,6 @@ const SearchResult: React.FC<SearchResultProps> = ({
             {searchResult}
           </ReactMarkdown>
         </div>
-
-        {/* Action buttons */}
-        {/* <div className="flex items-center space-x-4 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-          <button
-            className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-            onClick={() => console.log("Helpful clicked")}
-          >
-            <ThumbsUp className="w-4 h-4" />
-            <span className="text-sm">Helpful</span>
-          </button>
-          <button
-            className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-            onClick={() => console.log("Comment clicked")}
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span className="text-sm">Comment</span>
-          </button>
-          <button
-            className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-            onClick={() => console.log("Save clicked")}
-          >
-            <Bookmark className="w-4 h-4" />
-            <span className="text-sm">Save</span>
-          </button>
-        </div> */}
       </div>
     </div>
   );

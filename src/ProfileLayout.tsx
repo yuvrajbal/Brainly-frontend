@@ -24,12 +24,72 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // return (
+  //   <div className="flex min-h-screen">
+  //     {/* Mobile Menu Button */}
+  //     <button
+  //       onClick={toggleSidebar}
+  //       className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-800 text-white"
+  //       aria-label="Toggle menu"
+  //     >
+  //       {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+  //     </button>
+
+  //     {/* Overlay for mobile */}
+  //     {isSidebarOpen && (
+  //       <div
+  //         className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+  //         onClick={() => setIsSidebarOpen(false)}
+  //       />
+  //     )}
+
+  //     {/* Sidebar */}
+  //     <aside
+  //       className={`
+  //         w-72 dark:bg-neutral-950 fixed lg:sticky top-0 h-screen z-40
+  //         transition-transform duration-300 ease-in-out
+  //         ${
+  //           isSidebarOpen
+  //             ? "translate-x-0"
+  //             : "-translate-x-full lg:translate-x-0"
+  //         }
+  //       `}
+  //     >
+  //       <a
+  //         className="text-lg font-bold text-white px-6 h-16 border-b border-gray-400 flex gap-2 items-center"
+  //         href="/home"
+  //       >
+  //         <Brain className="text-indigo-500" />
+  //         BrainlyAI
+  //       </a>
+
+  //       <nav className="flex flex-col mt-4">
+  //         {navLinks.map((link) => (
+  //           <a
+  //             key={link.href}
+  //             className="text-gray-100 p-4 hover:bg-neutral-900 text-md flex items-center gap-3"
+  //             href={link.href}
+  //             onClick={() => setIsSidebarOpen(false)}
+  //           >
+  //             {link.icon}
+  //             {link.label}
+  //           </a>
+  //         ))}
+  //       </nav>
+  //     </aside>
+
+  //     {/* Main Content */}
+  //     <main className="flex-1 dark:bg-neutral-900 bg-gray-100">
+  //       <div className="px-6 py-12 space-y-6">{children}</div>
+  //     </main>
+  //   </div>
+  // );
   return (
     <div className="flex min-h-screen">
       {/* Mobile Menu Button */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-800 text-white"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-gray-200 text-black dark:bg-neutral-800 dark:text-white"
         aria-label="Toggle menu"
       >
         {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -38,7 +98,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Overlay for mobile */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 lg:hidden dark:bg-black dark:bg-opacity-50"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -46,8 +106,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         className={`
-          w-72 dark:bg-neutral-950 fixed lg:sticky top-0 h-screen z-40
+          w-72 bg-gray-100 fixed lg:sticky top-0 h-screen z-40
           transition-transform duration-300 ease-in-out
+          dark:bg-neutral-950
           ${
             isSidebarOpen
               ? "translate-x-0"
@@ -56,10 +117,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         `}
       >
         <a
-          className="text-lg font-bold text-white px-6 h-16 border-b border-gray-400 flex gap-2 items-center"
+          className="text-lg font-bold text-black px-6 h-16 border-b border-gray-200 flex gap-2 items-center dark:text-white dark:border-gray-700"
           href="/home"
         >
-          <Brain className="text-indigo-500" />
+          <Brain className="text-indigo-600 dark:text-indigo-500" />
           BrainlyAI
         </a>
 
@@ -67,7 +128,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {navLinks.map((link) => (
             <a
               key={link.href}
-              className="text-gray-100 p-4 hover:bg-neutral-900 text-md flex items-center gap-3"
+              className="text-black p-4 hover:bg-gray-200 text-md flex items-center gap-3 dark:text-gray-100 dark:hover:bg-neutral-900"
               href={link.href}
               onClick={() => setIsSidebarOpen(false)}
             >
@@ -79,7 +140,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 dark:bg-neutral-900 bg-gray-100">
+      <main className="flex-1 bg-gray-100 dark:bg-neutral-900">
         <div className="px-6 py-12 space-y-6">{children}</div>
       </main>
     </div>

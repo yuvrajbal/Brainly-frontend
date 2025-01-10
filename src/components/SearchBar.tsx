@@ -3,7 +3,6 @@ import axios from "axios";
 import { ChevronDown, ChevronsDown, Loader2, SearchIcon } from "lucide-react";
 import { Memory } from "./AllNotes";
 import Note2 from "./NoteCard2";
-import HeroCard from "./HeroCard";
 import SearchSkeleton from "./SearchSkeleton";
 import SearchResult from "./SearchResult";
 import {
@@ -13,11 +12,87 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 interface SearchResult {
   answer: string;
   message: string;
   content: Memory[];
 }
+// interface SearchResultComponentProps {
+//   memories: Memory[];
+// }
+
+// const SearchResultComponent: React.FC<SearchResultComponentProps> = ({
+//   memory,
+// }) => {
+//   const [isVisible, setIsVisible] = useState<boolean>(false);
+//   return (
+//     <div>
+//       <h3
+//         className="mb-2 font-semibold text-gray-500 hover:text-gray-400 dark:text-gray-400 flex gap-2 items-center dark:hover:text-gray-500 hover:cursor-pointer "
+//         onClick={() => setIsVisible(!isVisible)}
+//       >
+//         <div
+//           className={`transform transition-transform duration-200 ${
+//             isVisible ? "rotate-180" : ""
+//           } `}
+//         >
+//           <ChevronsDown className="size-4" />
+//         </div>
+//         Show related Content
+//       </h3>
+//       {isVisible && (
+//         <Note2
+//           key={memory.title}
+//           type={memory.type}
+//           title={memory.title}
+//           description={memory.description}
+//           url={memory.link || ""}
+//           imageUrl={memory.imageUrl}
+//           id={memory._id}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// const SearchResultMasonry: React.FC<SearchResultComponentProps> = ({
+//   memories,
+// }) => {
+//   return (
+//     <Box
+//       sx={{
+//         width: "100%",
+//       }}
+//     >
+//       <Box
+//         sx={{
+//           transform: "scale(1)", // Scales down to 30%
+//           transformOrigin: "top left", // Keeps scaling from top-left corner
+//         }}
+//       >
+//         <Masonry columns={{ xs: 1, sm: 2, lg: 1 }} spacing={2}>
+//           {memories.map((memory) => (
+//             <Box key={memory._id} sx={{ borderRadius: 0, overflow: "hidden" }}>
+//               <div className="relative  ">
+//                 <Note2
+//                   id={memory._id}
+//                   key={memory._id}
+//                   type={memory.type}
+//                   title={memory.title}
+//                   description={memory.description}
+//                   url={memory.link || ""}
+//                   handledelete={() => {}}
+//                   imageUrl={memory.imageUrl}
+//                 />
+//               </div>
+//             </Box>
+//           ))}
+//         </Masonry>
+//       </Box>
+//     </Box>
+//   );
+// };
 
 const VectorSearch: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -122,7 +197,7 @@ const VectorSearch: React.FC = () => {
 
   return (
     <div className=" flex flex-col lg:flex-row lg:gap-8 gap-4 ">
-      <div className="lg:w-2/3">
+      <div className="w-full ">
         <form
           onSubmit={handleSearch}
           className="flex flex-col group relative rounded-3xl shadow-md p-4 
@@ -149,7 +224,7 @@ const VectorSearch: React.FC = () => {
             placeholder="Ask your memories..."
             className="p-0 resize-none flex-grow outline-none bg-transparent
           text-gray-900 dark:text-gray-100 
-          font-semibold text-lg
+          font-semibold text-2xl
           placeholder:text-gray-500 dark:placeholder:text-gray-400
           transition-colors duration-200
           focus:ring-0"
@@ -160,28 +235,18 @@ const VectorSearch: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="self-center rounded-full p-3 bg-neutral-800 dark:bg-gray-200  dark:hover:bg-gray-400 disabled:opacity-50 hover:bg-neutral-600 transition-colors"
+              className="self-center rounded-full p-3 bg-neutral-800 dark:bg-neutral-900 border dark:border-neutral-700  dark:hover:bg-neutral-950  disabled:opacity-50 hover:bg-neutral-700 transition-colors"
             >
               {isLoading ? (
-                <Loader2 className="size-4 stroke-white dark:stroke-black animate-spin" />
+                <Loader2 className="size-4 stroke-white dark:stroke-neutral-400 stroke-2 animate-spin" />
               ) : (
-                <SearchIcon className="size-4 stroke-white dark:stroke-black " />
+                <SearchIcon className="size-4 stroke-white dark:stroke-neutral-400 stroke-2 " />
               )}
             </button>
           </div>
         </form>
         <div className="my-6">
-          {/* Loading State */}
-          {isLoading && (
-            // <div className="flex">
-            //   <div className="bg-gray-100 dark:bg-neutral-800 rounded-3xl p-3 max-w-[80%]">
-            //     <p className="text-gray-500 dark:text-gray-200">
-            //       Searching through your memories...
-            //     </p>
-            //   </div>
-            // </div>
-            <SearchSkeleton />
-          )}
+          {isLoading && <SearchSkeleton />}
 
           {/* Error Message */}
           {error && (
@@ -195,24 +260,6 @@ const VectorSearch: React.FC = () => {
           <div className="flex flex-col md:flex-row md:gap-6">
             {/* Search Result */}
             {searchResult && responseTime && (
-              // <div className="">
-              //   <div className="bg-gray-50 dark:bg-neutral-800 rounded-3xl p-4 dark:border dark:border-gray-600">
-              //     <ReactMarkdown
-              //       className="text-gray-900 dark:text-gray-200 font-normal text-lg "
-              //       components={{
-              //         a: ({ node, ...props }) => (
-              //           <a
-              //             {...props}
-              //             target="_blank"
-              //             rel="noopener noreferrer"
-              //           />
-              //         ),
-              //       }}
-              //     >
-              //       {searchResult}
-              //     </ReactMarkdown>
-              //   </div>
-              // </div>
               <SearchResult
                 searchResult={searchResult}
                 timestamp={responseTime}
@@ -223,7 +270,7 @@ const VectorSearch: React.FC = () => {
       </div>
 
       {searchContent && searchContent.length > 0 && (
-        <div className="lg:w-1/3 mb-10">
+        <div className="w-full lg:w-1/3 mb-2">
           <h1
             className="text-base font-semibold text-gray-500 hover:text-gray-400 dark:text-gray-400 flex gap-2 items-center dark:hover:text-gray-500 hover:cursor-pointer "
             onClick={() => setShowRelated(!showRelated)}
@@ -258,9 +305,15 @@ const VectorSearch: React.FC = () => {
               </div>
             </div>
           )}
+          {/* <div className="flex flex-col gap-4">
+            {searchContent.map((memory) => (
+              <SearchResultComponent memory={memory} />
+            ))}
+          </div>
+          {/* <SearchResultMasonry memories={searchContent} /> */}
         </div>
       )}
-      {searchContent.length === 0 && <HeroCard />}
+      {/* {searchContent.length === 0 && <HeroCard />} */}
     </div>
   );
 };

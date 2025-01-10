@@ -20,7 +20,7 @@ export default function Button({
 }: ButtonProps) {
   const variantStyles = {
     primary:
-      "bg-indigo-600 text-white hover:text-gray-300 dark:bg-stone-950 dark:shadow-md dark:border dark:border-neutral-800 dark:text-gray-300 dark:hover:text-gray-400",
+      "bg-white hover:bg-gray-50 font-semibold text-black shadow-md border border-gray-400 hover:text-gray-900 dark:bg-stone-950 dark:shadow-md dark:border dark:border-neutral-800 dark:text-gray-300 dark:hover:text-gray-400",
     secondary:
       "bg-indigo-100  text-blue-800 hover:text-gray-500 dark:bg-stone-900 dark:text-gray-300 dark:hover:text-gray-400",
     pro: "bg-gradient-to-r from-indigo-600 to-blue-500 text-white hover:from-indigo-700 hover:to-blue-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-900 animate-pulse",

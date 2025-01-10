@@ -83,7 +83,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        <div className="px-4 sm:px-8">
+        <div className="px-4 sm:px-8 ">
           <Greeting />
           <SearchBar />
         </div>

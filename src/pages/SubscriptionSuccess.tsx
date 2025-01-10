@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Check } from "lucide-react";
 
-function SubscriptionSuccess() {
+const PaymentSuccess: React.FC = () => {
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const sessionId = queryParams.get("session_id");
 
@@ -24,64 +27,43 @@ function SubscriptionSuccess() {
       savePayment();
     }
   }, [sessionId]);
-  // const [paymentStatus, setPaymentStatus] = useState("");
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  useEffect(() => {
+    // Redirect to home after 3 seconds
+    const timer = setTimeout(() => {
+      navigate("/home");
+    }, 3000);
 
-  // useEffect(() => {
-  //   const queryParams = new URLSearchParams(location.search);
-  //   const paymentIntent = queryParams.get("payment_intent");
-  //   const clientSecret = queryParams.get("payment_intent_client_secret");
+    return () => clearTimeout(timer);
+  }, [navigate]);
 
-  //   if (paymentIntent && clientSecret) {
-  //     // Call your backend to verify the payment status or perform any other logic
-  //     axios
-  //       .post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/verify-payment`, {
-  //         paymentIntent,
-  //         clientSecret,
-  //       })
-  //       .then((response) => {
-  //         setPaymentStatus("Payment Successful");
-  //       })
-  //       .catch((error) => {
-  //         setPaymentStatus("Payment Verification Failed");
-  //       });
-  //   } else {
-  //     setPaymentStatus("Invalid Payment Information");
-  //   }
-  // }, [location.search]);
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md mx-auto text-center">
+        {/* Success checkmark with animation */}
+        <div className="mb-8">
+          <div className="h-24 w-24 rounded-full bg-green-100 mx-auto flex items-center justify-center animate-bounce">
+            <Check className="h-12 w-12 text-green-500" strokeWidth={3} />
+          </div>
+        </div>
 
-  // const gobackHome = () => {
-  //   navigate("/home");
-  // };
-  // const goBacksubscribe = () => {
-  //   navigate("/subscribe");
-  // };
-  // return (
-  //   <div className="flex items-center justify-center min-h-screen flex-col gap-4">
-  //     <h1 className="font-semibold text-3xl dark:text-gray-300 text-gray-900">
-  //       {paymentStatus === "Payment Successful"
-  //         ? "Thanks for Joining BrainlyAI"
-  //         : "Payment was not successful try again"}
-  //     </h1>
-  //     <div>
-  //       {paymentStatus === "Payment Successful" ? (
-  //         <Button
-  //           variant="secondary"
-  //           onClick={gobackHome}
-  //           text={"Go back to Home"}
-  //         />
-  //       ) : (
-  //         <Button
-  //           variant="secondary"
-  //           onClick={goBacksubscribe}
-  //           text={"Pay Again"}
-  //         />
-  //       )}
-  //     </div>
-  //   </div>
-  // );
-  return <div className="text-5xl dark:text-white text-gray-900">success</div>;
-}
+        {/* Success message */}
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Payment Successful!
+        </h1>
+        <p className="text-gray-600 mb-8">
+          Thank you for upgrading to BrainlyAI Pro
+        </p>
 
-export default SubscriptionSuccess;
+        {/* Loading indicator */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-1 w-48 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-full bg-green-500 animate-progress rounded-full"></div>
+          </div>
+          <p className="text-sm text-gray-500">Redirecting you to home...</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PaymentSuccess;

@@ -4,3 +4,15 @@
 html {
   scroll-behavior: smooth;
 }
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-progress {
+  animation: progress 2.5s ease-in-out;
+}

@@ -2,7 +2,8 @@ import { ChevronDown, PlusIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { getSubscriptionStatus } from "@/services/userService";
+import { getUserDetails } from "@/services/userService";
+import { Sparkles } from "lucide-react";
 
 interface HeaderProps {
   modalState: boolean;
@@ -10,6 +11,17 @@ interface HeaderProps {
   userModalState: boolean;
   setUserModalState: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const BrainlyProBadge = ({ className = "" }) => {
+  return (
+    <div
+      className={`inline-flex items-center gap-1 px-2 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-white text-sm font-medium shadow-lg ${className}`}
+    >
+      <Sparkles size={14} className="animate-pulse" />
+      <span className="mr-1">BrainlyAI Pro</span>
+    </div>
+  );
+};
 
 export default function Header({
   modalState,
@@ -21,6 +33,7 @@ export default function Header({
   const [loggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [isPro, setIsPro] = useState(true);
+  const [username, setUsername] = useState<string>("");
 
   const getUserCredentials = (name: string) => {
     return name
@@ -30,19 +43,6 @@ export default function Header({
       .join("")
       .toUpperCase();
   };
-  // const [darkMode, setDarkMode] = useState(() => {
-  //   const savedMode = localStorage.getItem("darkMode");
-  //   return savedMode ? JSON.parse(savedMode) : true;
-  // });
-  // useEffect(() => {
-  //   if (darkMode) {
-  //     document.documentElement.classList.remove("light");
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //     document.documentElement.classList.add("light");
-  //   }
-  // }, [darkMode]);
 
   const handleOpenAddContent = () => {
     setModalState(!modalState);
@@ -61,12 +61,20 @@ export default function Header({
       setIsLoggedIn(true);
     }
   });
+  // useEffect(() => {
+  //   const getStatus = async () => {
+  //     const status = await getSubscriptionStatus();
+  //     setIsPro(status);
+  //   };
+  //   getStatus();
+  // }, []);
   useEffect(() => {
-    const getStatus = async () => {
-      const status = await getSubscriptionStatus();
-      setIsPro(status);
+    const getUserData = async () => {
+      const userDetails = await getUserDetails();
+      setUsername(userDetails.username);
+      setIsPro(userDetails.isPremium);
     };
-    getStatus();
+    getUserData();
   }, []);
   const upgradetoPro = () => {
     navigate("/upgrade");
@@ -105,7 +113,9 @@ export default function Header({
           </button>
 
           <div className="flex gap-4 items-center">
-            {isPro ? null : (
+            {isPro ? (
+              <BrainlyProBadge />
+            ) : (
               <Button
                 variant="pro"
                 text="Upgrade Pro"
@@ -114,13 +124,6 @@ export default function Header({
               />
             )}
 
-            {/* <button
-              className="rounded-md py-2 px-3 flex items-center gap-1 bg-gray-100 text-gray-900  hover:text-gray-700 dark:bg-zinc-900 dark:text-gray-300 dark:hover:text-gray-400 font-medium "
-              onClick={handleOpenAddContent}
-            >
-              <PlusIcon className="w-5 h-5" />
-              <div>Add Memory</div>
-            </button> */}
             <Button
               variant="primary"
               text="Add Memory"
@@ -136,7 +139,7 @@ export default function Header({
                 >
                   <ChevronDown className=" " />
                   <div className="cursor-pointer rounded-full bg-gray-100 dark:bg-zinc-900 w-8 h-8 flex items-center justify-center">
-                    {getUserCredentials("YuvrajBal")}
+                    {getUserCredentials(username)}
                   </div>
                 </div>
               </div>

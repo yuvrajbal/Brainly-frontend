@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Layout from "./Layout";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import SubscriptionSuccess from "./pages/SubscriptionSuccess";
 import SubscriptionFail from "./pages/SubscriptionFail";
 import PricingSection from "./pages/PricingSection";
 import WelcomePage from "./pages/Welcome";
@@ -20,6 +19,7 @@ import {
 import PolicyLayout from "./PolicyLayout";
 import LoginLayout from "./pages/LoginLayout";
 import Profile from "./pages/Profile";
+import PaymentSuccess from "./pages/SubscriptionSuccess";
 function App() {
   return (
     <main className="">
@@ -27,10 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="home" element={<Home />} />
-            <Route
-              path="subscription/success"
-              element={<SubscriptionSuccess />}
-            />
+            <Route path="subscription/success" element={<PaymentSuccess />} />
             <Route path="upgrade" element={<PricingSection />} />
             <Route path="subscription/fail" element={<SubscriptionFail />} />
             <Route path="profile" element={<Profile />} />
