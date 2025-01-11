@@ -48,7 +48,7 @@ const HeaderWelcome = () => {
             </a>
           ))}
           <button
-            className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 px-4 py-2 rounded-md"
+            className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 px-4 py-2 rounded-md text-white"
             onClick={navigateLogin}
           >
             Get Started

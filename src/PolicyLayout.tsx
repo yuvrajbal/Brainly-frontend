@@ -50,7 +50,7 @@ export default function PolicyLayout() {
               </Link>
             ))}
             <button
-              className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 px-4 py-2 rounded-md"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white transition-all duration-300 px-4 py-2 rounded-md"
               onClick={navigateLogin}
             >
               Get Started
