@@ -8,6 +8,7 @@ import {
 import { toast, Toaster } from "sonner";
 import axios from "axios";
 import ProfileLayout from "@/ProfileLayout";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   type: "success" | "error";
@@ -26,7 +27,7 @@ export default function Profile() {
   const [subscriptionId, setSubscriptionId] = useState<string>("");
   const [billingCycle, setBillingCycle] = useState<string>("");
   const [nextBilling, setNextBilling] = useState<string>();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -60,6 +61,12 @@ export default function Profile() {
     getSubscriptionDetails();
   }, [subscriptionId]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/auth/signin");
+    }
+  });
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
 

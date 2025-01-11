@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function LoginLayout() {
   return (
-    <main className="relative">
+    <main className="relative ">
       <div className="absolute inset-0 z-0">
         <BackgroundBeams />
       </div>

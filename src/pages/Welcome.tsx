@@ -242,13 +242,13 @@ export default function WelcomePage() {
 
   const GetStarted = () => {
     return (
-      <div className="max-w-7xl md:p-8 p-4 mx-auto">
+      <div className="max-w-7xl md:p-8 px-4  mb-16 mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0 bg-neutral-800   p-8 rounded-xl  ">
           <div className="flex flex-col gap-2 md:w-2/3">
-            <h1 className="text-2xl font-bold text-white mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Ready to transform your knowledge management?
             </h1>
-            <p className="text-gray-300">
+            <p className="md:text-xl text-gray-300">
               Start organizing and chatting with your content in minutes. No
               credit card required.
             </p>
@@ -368,7 +368,7 @@ export default function WelcomePage() {
     ];
     return (
       <main className="bg-neutral-800   px-4 md:px-8 py-20 " id="pricing">
-        <div className=" max-w-7xl mx-auto px-8  ">
+        <div className=" max-w-7xl mx-auto md:px-8  ">
           <h1 className="text-4xl font-bold text-white mb-4 text-center ">
             Simple, Transparent Pricing
           </h1>
@@ -477,14 +477,14 @@ export default function WelcomePage() {
     const FaqButton: React.FC<FaqProps> = ({ question, answer }) => {
       const [isPressed, SetIsPressed] = useState<boolean>(false);
       return (
-        <div className="bg-neutral-800 rounded-lg px-6 py-4" id="faq">
+        <div className="bg-neutral-800 rounded-lg md:px-6 py-4 px-4" id="faq">
           <button
             onClick={() => SetIsPressed(!isPressed)}
-            className="text-white text-lg font-semibold flex justify-between items-center  w-full  "
+            className="text-white text-lg font-semibold flex justify-between  w-full items-center  "
           >
-            {question}
+            <div className="text-left pr-4 flex-1">{question}</div>
             <ChevronDown
-              className={`text-indigo-500  transform transition-transform duration-300 ${
+              className={` text-indigo-500  transform transition-transform duration-300 size-6 flex-shrink-0 ${
                 isPressed ? "rotate-180" : "rotate-0"
               }`}
             />
@@ -526,7 +526,7 @@ export default function WelcomePage() {
           <p className="text-gray-300 text-xl">
             Get quick answers to common questions
           </p>
-          <div className="max-w-3xl mx-auto flex flex-col gap-6 py-16">
+          <div className="max-w-3xl mx-auto px-4 flex flex-col gap-6 py-16">
             {faqs.map((faq) => (
               <FaqButton question={faq.question} answer={faq.answer} />
             ))}
@@ -558,15 +558,15 @@ export default function WelcomePage() {
                   learning and research with AI. Start for free, no credit card
                   required.
                 </p>
-                <div className="flex items-center justify-center gap-8">
+                <div className="flex flex-col md:flex-row items-center justify-center md:gap-8 gap-4 max-w-xl mx-auto">
                   <button
-                    className="bg-white text-indigo-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all duration-300"
+                    className="w-full bg-white text-indigo-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all duration-300"
                     onClick={navigateUpgrade}
                   >
                     Subscribe Pro
                   </button>
                   <button
-                    className="bg-neutral-900 bg-opacity-50 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-70 transition-all duration-300"
+                    className="w-full bg-neutral-900 bg-opacity-50 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-70 transition-all duration-300"
                     onClick={navigateLogin}
                   >
                     Get Started Free
@@ -738,12 +738,30 @@ export default function WelcomePage() {
             Your Personal AI
             <div className="text-indigo-500">Knowledge Assistant</div>
           </h1>
+
+          {/* <TypewriterEffectSmooth
+            className={"py-0 my-2 max-w-lg "}
+            cursorClassName="bg-indigo-500"
+            words={[
+              {
+                text: "Knowledge",
+                className:
+                  "text-indigo-500 text-4xl md:text-6xl tracking-normal font-bold  ",
+              },
+              {
+                text: "Assistant",
+                className:
+                  "text-indigo-500 text-4xl md:text-6xl tracking-normal font-bold",
+              },
+            ]}
+          /> */}
+
           <div className="text-gray-300 text-xl mt-8 font-normal tracking-normal">
             Transform any content into an interactive knowledge base. Add
             documents, URLs, tweets, or YouTube videos and chat with your
             personalized AI assistant.
           </div>
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-4 mt-6 flex-col md:flex-row">
             <button
               className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300  text-lg font-semibold text-white py-3 px-8 rounded-lg"
               onClick={navigateLogin}
@@ -751,13 +769,13 @@ export default function WelcomePage() {
               Try for Free
             </button>
             <a
-              className="bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 text-lg font-semibold text-white py-4 px-8 rounded-lg"
+              className=" text-center bg-neutral-800 hover:bg-neutral-700 transition-all duration-300 text-lg font-semibold text-white py-4 px-8 rounded-lg"
               href="#working"
             >
               See How it Works
             </a>
           </div>
-          <div className="text-gray-300 flex gap-4 mt-10">
+          <div className="text-gray-300 flex gap-4 mt-10 mb-8 md:mb-0">
             <div className="flex gap-2">
               <Check className="text-indigo-500" /> No Credit Card Required
             </div>
@@ -766,7 +784,7 @@ export default function WelcomePage() {
             </div>
           </div>
         </div>
-        <div className="md:w-1/2 px-4 ">
+        <div className="md:w-1/2 w-full px-4 ">
           <div className="relative">
             <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg blur opacity-75"></div>
             <div className=" relative bg-neutral-800 rounded-lg shadow-2xl p-6 ">
