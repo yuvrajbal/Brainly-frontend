@@ -39,7 +39,7 @@ export default function LinkNote({ imageUrl, title, url }: linkProps) {
 
       <img
         src={imageUrl || defaultImageUrl}
-        className="w-full h-28 object-cover rounded-t-xl shadow-pink-900 shadow-inner"
+        className="w-full h-28 object-cover rounded-t-xl  shadow-inner"
       />
       <div className="px-4 flex flex-col gap-2">
         <h1 className="text-lg font-semibold dark:text-gray-300">{title}</h1>
