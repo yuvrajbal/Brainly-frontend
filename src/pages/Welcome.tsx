@@ -58,7 +58,7 @@ export default function WelcomePage() {
     navigate("/upgrade");
   };
   const handleEnterprise = () => {
-    const email = "sales@brainlyai.com"; // Replace with your actual sales email
+    const email = "balyuvi.yb@gmail.com";
     const subject = encodeURIComponent("Enterprise Plan Inquiry");
     const body = encodeURIComponent(
       "Hello,\n\nI am interested in learning more about the Enterprise plan. Please provide details about pricing and features.\n\nThank you."
