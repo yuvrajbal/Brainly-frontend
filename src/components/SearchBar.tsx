@@ -291,7 +291,7 @@ const VectorSearch: React.FC = () => {
               }`}
             >
               <div className="flex flex-col gap-4">
-                {searchContent.slice(0, 2).map((memory) => (
+                {searchContent.slice(0, 1).map((memory) => (
                   <Note2
                     key={memory.title}
                     type={memory.type}
