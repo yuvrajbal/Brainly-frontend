@@ -123,6 +123,21 @@ export const getDocumentUploadStatus = async () => {
 
   }
 }
+export const getContentUploadStatus = async () => { 
+  const token = localStorage.getItem("token")
+  try{
+    const response = await axios.get(`${baseUrl}get-content-count`, {
+      headers:{
+        authorization:token
+      }
+    })
+    if(response.status === 200){
+      return response.data.canAddContent
+    }
+  } catch(err){
+    console.log("Error while fetching content upload status")
+  }
+}
 
 export const resetPassword = async (oldPassword:string,newPassword:string) => {
   const token = localStorage.getItem("token");

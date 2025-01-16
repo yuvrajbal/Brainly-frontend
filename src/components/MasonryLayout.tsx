@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Masonry } from "@mui/lab";
 import Box from "@mui/material/Box";
 import Note2 from "./NoteCard2";
 import { PlusIcon } from "lucide-react";
+import { getContentUploadStatus } from "@/services/userService";
+import { toast } from "sonner";
 
 type MasonryProps = {
   _id: string;
@@ -24,8 +26,21 @@ const MasonryLayout: React.FC<MasonryLayoutProps> = ({
   modalState,
   setModalState,
 }) => {
+  const [contentStatus, setContentStatus] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const contentStatus = await getContentUploadStatus();
+      setContentStatus(contentStatus);
+    };
+    getStatus();
+  }, []);
   const handleOpenAddContent = () => {
-    setModalState(!modalState);
+    if (contentStatus) {
+      setModalState(!modalState);
+    } else {
+      toast.error("Max memory count reached");
+    }
   };
   return (
     <Box sx={{ width: "100%" }}>

@@ -2,8 +2,9 @@ import { ChevronDown, PlusIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { getUserDetails } from "@/services/userService";
+import { getContentUploadStatus, getUserDetails } from "@/services/userService";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 interface HeaderProps {
   modalState: boolean;
@@ -34,7 +35,7 @@ export default function Header({
   const navigate = useNavigate();
   const [isPro, setIsPro] = useState(true);
   const [username, setUsername] = useState<string>("");
-
+  const [contentStatus, setContentStatus] = useState<boolean>(false);
   const getUserCredentials = (name: string) => {
     return name
       .split(" ")
@@ -45,8 +46,20 @@ export default function Header({
   };
 
   const handleOpenAddContent = () => {
-    setModalState(!modalState);
+    if (contentStatus) {
+      setModalState(!modalState);
+    } else {
+      toast.error("Max memory count reached");
+    }
   };
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const contentStatus = await getContentUploadStatus();
+      setContentStatus(contentStatus);
+    };
+    getStatus();
+  }, []);
   const handleOpenUserModal = () => {
     setUserModalState(!userModalState);
   };

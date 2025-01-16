@@ -13,7 +13,10 @@ import type { FileRouter } from "uploadthing/types";
 import axios from "axios";
 import Button from "./Button";
 import { toast } from "sonner";
-import { getDocumentUploadStatus } from "@/services/userService";
+import {
+  getContentUploadStatus,
+  getDocumentUploadStatus,
+} from "@/services/userService";
 type OurFileRouter = {
   pdfUploader: FileRouter["pdfUploader"];
 };
@@ -30,6 +33,7 @@ export default function AddContent({
   const [fileName, setFileName] = useState("");
   const [type, setType] = useState("link");
   const [canUpload, setCanUpload] = useState(true);
+  const [contentStatus, setContentStatus] = useState(true);
   const items = [
     {
       icon: (
@@ -80,7 +84,9 @@ export default function AddContent({
   useEffect(() => {
     const getStatus = async () => {
       const uploadStatus = await getDocumentUploadStatus();
+      const contentStatus = await getContentUploadStatus();
       setCanUpload(uploadStatus);
+      setContentStatus(contentStatus);
     };
     getStatus();
   }, []);
@@ -280,44 +286,52 @@ export default function AddContent({
       className="px-2 pt-6 pb-2 border rounded-lg bg-gray-50 dark:bg-neutral-800 dark:border-none"
       ref={addContentRef}
     >
-      <h1 className="flex gap-3 items-center font-semibold mb-6 dark:text-gray-200">
-        <CirclePlus className="size-4 stroke-2" />
-        Add Memory
-      </h1>
-      <div className="group grid grid-cols-4 border p-2 rounded-md bg-gray-50 dark:bg-stone-900 dark:border-neutral-700">
-        {items.map((item, index) => (
-          <div
-            className={`p-3 rounded-md text-sm font-medium cursor-pointer ${
-              selectedIndex === index
-                ? `${item.bgColor}`
-                : "hover:bg-gray-100 dark:bg-inherit"
-            }
-              ${selectedIndex === index ? `border ${item.borderColor}` : ""}`}
-            key={item.label}
-            onClick={() => handleTypeChange(item.value, index)}
-          >
-            {item.icon}
-            <div className="mt-2 dark:text-gray-300">{item.label}</div>
+      {contentStatus ? (
+        <div>
+          <h1 className="flex gap-3 items-center font-semibold mb-6 dark:text-gray-200">
+            <CirclePlus className="size-4 stroke-2" />
+            Add Memory
+          </h1>
+          <div className="group grid grid-cols-4 border p-2 rounded-md bg-gray-50 dark:bg-stone-900 dark:border-neutral-700">
+            {items.map((item, index) => (
+              <div
+                className={`p-3 rounded-md text-sm font-medium cursor-pointer ${
+                  selectedIndex === index
+                    ? `${item.bgColor}`
+                    : "hover:bg-gray-100 dark:bg-inherit"
+                }
+                ${selectedIndex === index ? `border ${item.borderColor}` : ""}`}
+                key={item.label}
+                onClick={() => handleTypeChange(item.value, index)}
+              >
+                {item.icon}
+                <div className="mt-2 dark:text-gray-300">{item.label}</div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <form onSubmit={handleAddMemory}>
-        {selectedIndex !== null && renderDynamicInput()}
-        <div className="flex justify-between mt-8">
-          <Button
-            text="Cancel"
-            variant="secondary"
-            type="button"
-            onClick={onClose}
-          />
-          <Button
-            text="Add Memory"
-            variant="primary"
-            type="submit"
-            disabled={isButtonDisabled()}
-          />
+          <form onSubmit={handleAddMemory}>
+            {selectedIndex !== null && renderDynamicInput()}
+            <div className="flex justify-between mt-8">
+              <Button
+                text="Cancel"
+                variant="secondary"
+                type="button"
+                onClick={onClose}
+              />
+              <Button
+                text="Add Memory"
+                variant="primary"
+                type="submit"
+                disabled={isButtonDisabled()}
+              />
+            </div>
+          </form>
         </div>
-      </form>
+      ) : (
+        <h1 className="dark:text-white text-3xl text-gray-900 p-6">
+          Upgrade to pro to upload more content
+        </h1>
+      )}
     </main>
   );
 }
